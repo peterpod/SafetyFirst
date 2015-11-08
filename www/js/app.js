@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic'])
+angular.module('app', ['ionic', 'app.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -31,7 +31,7 @@ angular.module('app', ['ionic'])
   // Each state's controller can be found in controllers.js
   $stateProvider
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
@@ -43,7 +43,18 @@ angular.module('app', ['ionic'])
     url: '/map',
     views: {
       'tab-map': {
-        templateUrl: 'templates/tab-map.html'
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
+      }
+    }
+  })
+
+  .state('tab.pin', {
+    url: '/pin',
+    views: {
+      'tab-map': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl'
       }
     }
   })
@@ -52,8 +63,7 @@ angular.module('app', ['ionic'])
       url: '/list',
       views: {
         'tab-list': {
-          templateUrl: 'templates/tab-alertList.html',
-          controller: 'AlertListCtrl'
+          templateUrl: 'templates/tab-alertList.html'
         }
       }
     })
