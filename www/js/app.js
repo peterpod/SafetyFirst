@@ -49,14 +49,22 @@ angular.module('app', ['ionic', 'app.controllers'])
     }
   })
 
-  .state('tab.pin', {
-    url: '/pin',
+  .state('tab.report', {
+    url: '/report',
     views: {
-      'tab-map': {
-        templateUrl: 'templates/tab-map.html',
-        controller: 'MapCtrl'
+      'tab-report': {
+        templateUrl: 'templates/tab-report.html'
       }
     }
+  })
+
+  .state('tab.help', {
+      url: '/help',
+      views: {
+        'tab-help': {
+          templateUrl: 'templates/tab-help.html'
+        }
+      }
   })
 
   .state('tab.alertList', {
