@@ -7,3 +7,15 @@
     width: 100%;
     height: 100%;
 }
+
+/*Displays details side-by-side*/
+.alertListDetails p{
+	
+	float:left;
+
+}
+
+/*Padding between the location information and time since posted for alerts in the list*/
+.addSpace{
+	padding-left: 20px;
+}
