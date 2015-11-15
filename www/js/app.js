@@ -5,9 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers'])
+angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, ngFB) {
+  ngFB.init({appId: '841208139331064'});
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -30,6 +31,23 @@ angular.module('app', ['ionic', 'app.controllers'])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+
+  .state('app', {
+      url: "/app",
+      abstract: true,
+      templateUrl: "templates/menu.html",
+      controller: 'AppCtrl'
+    })
+    .state('app.playlists', {
+      url: "/playlists",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/playlists.html",
+          controller: 'PlaylistsCtrl'
+        }
+      }
+    })  
+
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
