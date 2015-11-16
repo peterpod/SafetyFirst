@@ -32,21 +32,22 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  .state('app', {
-      url: "/app",
-      abstract: true,
-      templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
-    })
-    .state('app.playlists', {
-      url: "/playlists",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })  
+  // .state('menu', {
+  //     url: "/menu",
+  //     abstract: true,
+  //     templateUrl: "templates/menu.html",
+  //     controller: 'AppCtrl'
+  //   })
+
+  // .state('menu.playlists', {
+  //     url: "/playlists",
+  //     views: {
+  //       'menu' :{
+  //         templateUrl: "templates/playlists.html",
+  //         controller: 'PlaylistsCtrl'
+  //       }
+  //     }
+  //   })  
 
   // setup an abstract state for the tabs directive
   .state('tab', {
@@ -54,9 +55,6 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
-
-  // Each tab has its own nav history stack:
-
   .state('tab.map', {
     url: '/map',
     views: {
@@ -66,7 +64,6 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       }
     }
   })
-
   .state('tab.report', {
     url: '/report',
     views: {
@@ -75,7 +72,6 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       }
     }
   })
-
   .state('tab.help', {
       url: '/help',
       views: {
@@ -84,7 +80,6 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
         }
       }
   })
-
   .state('tab.alertList', {
       url: '/list',
       views: {
@@ -93,9 +88,13 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
         }
       }
     })
-
+  .state('login', {
+      url: '/login',
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
+  })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/map');
+  $urlRouterProvider.otherwise('/login');
 
 });
