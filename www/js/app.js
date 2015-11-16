@@ -32,22 +32,22 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  // .state('menu', {
-  //     url: "/menu",
-  //     abstract: true,
-  //     templateUrl: "templates/menu.html",
-  //     controller: 'AppCtrl'
-  //   })
+  .state('menu', {
+      url: "/menu",
+      abstract: true,
+      templateUrl: "templates/menu.html",
+      controller: 'LoginCtrl'
+    })
 
-  // .state('menu.playlists', {
-  //     url: "/playlists",
-  //     views: {
-  //       'menu' :{
-  //         templateUrl: "templates/playlists.html",
-  //         controller: 'PlaylistsCtrl'
-  //       }
-  //     }
-  //   })  
+  .state('menu.profile', {
+    url: "/profile",
+    views: {
+        'menuContent': {
+            templateUrl: "templates/profile.html",
+            controller: "ProfileCtrl"
+        }
+      }
+  })    
 
   // setup an abstract state for the tabs directive
   .state('tab', {
@@ -85,6 +85,14 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       views: {
         'tab-list': {
           templateUrl: 'templates/tab-alertList.html'
+        }
+      }
+    })
+    .state('tab.settings', {
+      url: '/settings',
+      views: {
+        'tab-list': {
+          templateUrl: 'templates/tab-settings.html'
         }
       }
     })

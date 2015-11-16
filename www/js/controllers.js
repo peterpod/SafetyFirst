@@ -1,8 +1,6 @@
 // add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
-.controller('LoginCtrl', function ($scope, $ionicModal, $state, $ionicSideMenuDelegate, $timeout, ngFB) {
-  console.log("App");
-
+.controller('LoginCtrl', function ($scope, $rootScope, $ionicModal, $state, $ionicSideMenuDelegate, $timeout, ngFB) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -17,9 +15,34 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
   };
 
+  $scope.fbLogout = function () {
+    openFB.logout().then(function(){
+            $rootScope.$broadcast('logged-out');
+        });
+  };
+
+
+}).controller('ProfileCtrl', function ($scope, ngFB) {
+    ngFB.api({
+        path: '/me',
+        params: {fields: 'id,name'}
+    }).then(
+        function (user) {
+            $scope.user = user;
+        },
+        function (error) {
+            alert('Facebook error: ' + error.error_description);
+        });
 })
-.controller('MapCtrl', function($scope, $ionicLoading) {
+.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate) {
     console.log("here is our map");
+  
+    $scope.toggleLeftSideMenu = function() {
+        console.log("calling toggle");
+        setTimeout(function(){
+            $ionicSideMenuDelegate.toggleLeft(true);
+        }, 1000);
+    };
  
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
 
@@ -42,17 +65,4 @@ angular.module('app.controllers', ['ngOpenFB'])
 
     $scope.map = map;
 
-})
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {
 });

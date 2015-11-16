@@ -205,6 +205,8 @@ var openFB = (function () {
         /* Remove token. Will fail silently if does not exist */
         tokenStore.removeItem('fbtoken');
 
+        logoutRedirectURL = 'http://localhost:8100/logoutcallback.html'
+
         if (token) {
             logoutWindow = window.open(logoutURL + '?access_token=' + token + '&next=' + logoutRedirectURL, '_blank', 'location=no,clearcache=yes');
             if (runningInCordova) {
