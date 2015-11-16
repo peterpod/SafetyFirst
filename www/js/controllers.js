@@ -30,6 +30,8 @@ angular.module('app.controllers', [])
     });
 
     function alertControl(alertDiv, map){
+        var ParseAlert = Parse.Object.extend("Alerts");
+        var parseAlert = new ParseAlert();
         $ionicModal.fromTemplateUrl('my-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -41,6 +43,21 @@ angular.module('app.controllers', [])
         };
         $scope.closeModal = function() {
             $scope.modal.hide();
+        };
+        $scope.createAlert = function(info){
+            parseAlert.set("severity", info.sev);
+            parseAlert.set("title", info.title);
+            parseAlert.set("description", info.description);
+            parseAlert.set("Location", [40.4428285, -79.9561175])
+            parseAlert.set("active", true);
+            parseAlert.save(null, {
+                success: function(parseAlert){
+                    alert('Alert has been created ' + parseAlert.id);
+                },
+                error: function(parseAlert, error){
+                    alert('Failed to create alert ' + error.message);
+                }
+            });
         };
           //Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function() {
