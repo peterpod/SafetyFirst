@@ -5,9 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers'])
+angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, ngFB) {
+  ngFB.init({appId: '841208139331064'});
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -30,15 +31,30 @@ angular.module('app', ['ionic', 'app.controllers'])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+
+  .state('menu', {
+      url: "/menu",
+      abstract: true,
+      templateUrl: "templates/menu.html",
+      controller: 'LoginCtrl'
+    })
+
+  .state('menu.profile', {
+    url: "/profile",
+    views: {
+        'menuContent': {
+            templateUrl: "templates/profile.html",
+            controller: "ProfileCtrl"
+        }
+      }
+  })    
+
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
-
-  // Each tab has its own nav history stack:
-
   .state('tab.map', {
     url: '/map',
     views: {
@@ -48,17 +64,22 @@ angular.module('app', ['ionic', 'app.controllers'])
       }
     }
   })
-
-  .state('tab.pin', {
-    url: '/pin',
+  .state('tab.report', {
+    url: '/report',
     views: {
-      'tab-map': {
-        templateUrl: 'templates/tab-map.html',
-        controller: 'MapCtrl'
+      'tab-report': {
+        templateUrl: 'templates/tab-report.html'
       }
     }
   })
-
+  .state('tab.help', {
+      url: '/help',
+      views: {
+        'tab-help': {
+          templateUrl: 'templates/tab-help.html'
+        }
+      }
+  })
   .state('tab.alertList', {
       url: '/list',
       views: {
@@ -67,9 +88,21 @@ angular.module('app', ['ionic', 'app.controllers'])
         }
       }
     })
-
+    .state('tab.settings', {
+      url: '/settings',
+      views: {
+        'tab-list': {
+          templateUrl: 'templates/tab-settings.html'
+        }
+      }
+    })
+  .state('login', {
+      url: '/login',
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
+  })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/map');
+  $urlRouterProvider.otherwise('/login');
 
 });
