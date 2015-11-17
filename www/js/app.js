@@ -92,7 +92,8 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       url: '/settings',
       views: {
         'tab-settings': {
-          templateUrl: 'templates/tab-settings.html'
+          templateUrl: 'templates/tab-settings.html',
+          controller: 'ProfileCtrl'
         }
       }
     })
