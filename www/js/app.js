@@ -10,6 +10,7 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
 .run(function($ionicPlatform, ngFB) {
   ngFB.init({appId: '841208139331064'});
   $ionicPlatform.ready(function() {
+     Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n");
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
