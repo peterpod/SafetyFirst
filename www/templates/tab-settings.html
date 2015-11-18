@@ -1,14 +1,90 @@
-<ion-view view-title="Safety First">
-  <ion-content class="padding">
-  	<br>
-  	<br>
-    <div class="list card">
-      <div class="item item-divider">Settings Page</div>
-      <div class="item item-body">
-        <div>
-          User settings go here
+<ion-view view-title="Settings">
+    <ion-content>
+
+      <div class="list">
+        <a class="item item-thumbnail-left">
+          <img src="http://graph.facebook.com/{{user.id}}/picture?width=270&height=270"/>
+          <h2>{{user.name}}</h2>
+          <button class="button button-positive">Save</button>
+          <button class="button button-stable">Logout</button>
+
+
+        </a>
+
+
+        <div class="item item-divider">
+          My Community
+         
         </div>
+
+        <label class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="text" placeholder="Search address">
+        </label>
+
+
+        <div class="item item-divider">
+          Emergency Contact
+          
+        </div>
+
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Name</span>
+          <input type="text" placeholder="First Name">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Phone</span>
+          <input type="text" placeholder="Email">
+        </label>
+
+
+        <div class="item item-divider">
+          Notifications
+          
+        </div>
+
+        <div class="item range range-positive">
+          Radius
+            <i class="icon ion-ios-location-outline"></i>
+            <input type="range" name="volume" min="0" max="100" value="12">
+            <i class="icon ion-ios-location"></i>
+        </div>
+
+        <li class="item item-toggle">
+           Suspicious Activity
+           <label class="toggle toggle-positive">
+             <input type="checkbox" checked="">
+             <div class="track">
+               <div class="handle"></div>
+             </div>
+           </label>
+        </li>
+
+        <li class="item item-toggle">
+           Robbery
+           <label class="toggle toggle-positive">
+             <input type="checkbox" checked="">
+             <div class="track">
+               <div class="handle"></div>
+             </div>
+           </label>
+        </li>
+
+        <li class="item item-toggle">
+           Community Alerts
+           <label class="toggle toggle-positive">
+             <input type="checkbox" checked="">
+             <div class="track">
+               <div class="handle"></div>
+             </div>
+           </label>
+        </li>
+
+       
+
+
       </div>
-    </div>
-  </ion-content>
+
+        
+    </ion-content>
 </ion-view>
