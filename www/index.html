@@ -58,27 +58,9 @@
         </ion-header-bar>
         <ion-content>
           <div class="list">
-            <label class="item item-radio">
-              <input type="radio" name="group">
-              <div class="item-content">
-                Low
-              </div>
-              <i class="radio-icon ion-checkmark"></i>
-            </label>
-            <label class="item item-radio">
-              <input type="radio" name="group">
-              <div class="item-content">
-                Medium
-              </div>
-              <i class="radio-icon ion-checkmark"></i>
-            </label>
-            <label class="item item-radio">
-              <input type="radio" name="group">
-              <div class="item-content">
-                High
-              </div>
-              <i class="radio-icon ion-checkmark"></i>
-            </label>
+            <ion-radio ng-repeat="item in severityList" ng-value="item.value" ng-change="changeSeverity(item.text)" 
+             ng-model="alertInfo.sev"> {{ item.text }}
+            </ion-radio>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Title</span>
               <input type="text" placeholder="Suspicious person nearby">
