@@ -36,7 +36,10 @@ angular.module('app.controllers', ['ngOpenFB', 'ionic'])
 })
 .controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate, $ionicModal) {
     console.log("here is our map");
-  
+    $scope.ParseAlert = Parse.Object.extend("Alerts");
+    $scope.parseAlert = new $scope.ParseAlert();
+    $scope.parseQuery = new Parse.Query($scope.ParseAlert);
+
     $scope.toggleLeftSideMenu = function() {
         console.log("calling toggle");
         setTimeout(function(){
@@ -67,10 +70,27 @@ angular.module('app.controllers', ['ngOpenFB', 'ionic'])
             map: map,
             title: "My Location"
         });
+
+        $scope.parseQuery.find({
+            success:function(results){
+                console.log(results);
+                for (var i=0; i<results.length; i++){
+                    var alert = results[i];
+                    var alertMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]),
+                        map: map,
+                        title: alert.get("title")
+                    });
+                }
+            }, error: function(error){
+                console.log(error.message);
+            }
+        });
+
     });
+
+
     function alertControl(alertDiv, map){
-        var ParseAlert = Parse.Object.extend("Alerts");
-        var parseAlert = new ParseAlert();
         $ionicModal.fromTemplateUrl('my-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
