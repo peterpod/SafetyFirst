@@ -7,7 +7,36 @@
     width: 100%;
     height: 100%;
 }
+@media (min-width: 680px) {
+	.alertModal{
+	     width: 90%; 
+	     height: 75%; 
+	     top: 5%; 
+	     left: 5%; 
+	     right: 5%; 
+	     bottom: 5%;
+	}
+}
+#alertUI {
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  cursor: pointer;
+  float: left;
+  margin-bottom: 22px;
+  text-align: center;
+  margin-left: 10px;
+}
 
+#alertText {
+  color: rgb(25,25,25);
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 15px;
+  line-height: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 /*Displays details side-by-side*/
 .alertListDetails p{
 	
