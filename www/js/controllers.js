@@ -1,5 +1,5 @@
 // add controllers here
-angular.module('app.controllers', ['ngOpenFB'])
+angular.module('app.controllers', ['ngOpenFB', 'ionic'])
 .controller('LoginCtrl', function ($scope, $rootScope, $ionicModal, $state, $ionicSideMenuDelegate, $timeout, ngFB) {
   // Form data for the login modal
   $scope.loginData = {};
@@ -34,7 +34,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             alert('Facebook error: ' + error.error_description);
         });
 })
-.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate) {
+.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate, $ionicModal) {
     console.log("here is our map");
   
     $scope.toggleLeftSideMenu = function() {
@@ -60,13 +60,14 @@ angular.module('app.controllers', ['ngOpenFB'])
 
     navigator.geolocation.getCurrentPosition(function(pos) {
         map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+        map.latitude = pos.coords.latitude;
+        map.longitude = pos.coords.longitude;
         var myLocation = new google.maps.Marker({
             position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
             map: map,
             title: "My Location"
         });
     });
-
     function alertControl(alertDiv, map){
         var ParseAlert = Parse.Object.extend("Alerts");
         var parseAlert = new ParseAlert();
@@ -82,20 +83,36 @@ angular.module('app.controllers', ['ngOpenFB'])
         $scope.closeModal = function() {
             $scope.modal.hide();
         };
+        $scope.alert = {
+            sev: "high"
+        };
+        $scope.changeSeverity = function(sev){
+            $scope.alert.sev = sev;
+        }
+        $scope.severityList = [
+            {text: "Low", value: "low"},
+            {text: "Medium", value: "med"},
+            {text: "High", value: "high"}
+        ];
         $scope.createAlert = function(info){
-            parseAlert.set("severity", info.sev);
+            console.log(info);
+            parseAlert.set("severity", $scope.alert.sev);
             parseAlert.set("title", info.title);
             parseAlert.set("description", info.description);
-            parseAlert.set("Location", [40.4428285, -79.9561175])
+            parseAlert.set("location", [map.latitude, map.longitude])
             parseAlert.set("active", true);
             parseAlert.save(null, {
                 success: function(parseAlert){
+                    $scope.closeModal();
                     alert('Alert has been created ' + parseAlert.id);
                 },
                 error: function(parseAlert, error){
+                    $scope.closeModal();
                     alert('Failed to create alert ' + error.message);
                 }
             });
+            info = {};
+            
         };
           //Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function() {
