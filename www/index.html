@@ -18,6 +18,11 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+    <script src="js/openfb.js"></script>
+    <script src="js/ngopenfb.js"></script>
+
+    <!-- Parse -->
+    <script src="//www.parsecdn.com/js/parse-1.6.7.min.js"></script>
 
     <!-- Parse -->
     <script src="//www.parsecdn.com/js/parse-1.6.7.min.js"></script>
@@ -32,7 +37,7 @@
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-    <ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-positive">
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>
@@ -42,7 +47,7 @@
       have templates inline in this html file if you'd like).
     -->
     <ion-nav-view></ion-nav-view>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBb4-va80WwmX3fI0u_G0hbLaGo4M0THnc&sensor=true"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBb4-va80WwmX3fI0u_G0hbLaGo4M0THnc"></script>
     <!--
      Add alert modal
    -->
@@ -52,24 +57,23 @@
           <h1 class="title">Create an alert</h1>
         </ion-header-bar>
         <ion-content>
-        <form ng-submit="createAlert(alertInfo)">
           <div class="list">
             <label class="item item-radio">
-              <input type="radio" name="group" ng-model="alertInfo.sev" ng-value="low">
+              <input type="radio" name="group">
               <div class="item-content">
                 Low
               </div>
               <i class="radio-icon ion-checkmark"></i>
             </label>
             <label class="item item-radio">
-              <input type="radio" name="group" ng-model="alertInfo.sev" ng-value="med">
+              <input type="radio" name="group">
               <div class="item-content">
                 Medium
               </div>
               <i class="radio-icon ion-checkmark"></i>
             </label>
             <label class="item item-radio">
-              <input type="radio" name="group" ng-model="alertInfo.sev" ng-value="high">
+              <input type="radio" name="group">
               <div class="item-content">
                 High
               </div>
@@ -77,17 +81,16 @@
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Title</span>
-              <input type="text" placeholder="Suspicious person nearby" ng-model="alertInfo.title">
+              <input type="text" placeholder="Suspicious person nearby">
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Description</span>
-              <textarea placeholder="Enter Description Here" ng-model="alertInfo.description"></textarea>
+              <textarea placeholder="Enter Description Here"></textarea>
             </label>
           </div>
           <button class="button button-full button-positive">
             Submit
           </button>
-          </form>
         </ion-content>
       </ion-modal-view>
     </script>
