@@ -70,9 +70,10 @@
     max-width: 80%;
 }
 
-.login-container > .header {
+.login-container >form> .header {
     -webkit-flex: 4;
-    padding-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .fb-login{
