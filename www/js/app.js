@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
+angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB'])
 
 .run(function($ionicPlatform, ngFB) {
   ngFB.init({appId: '841208139331064'});
@@ -22,6 +22,14 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+    
+    var push = new Ionic.Push({
+      "debug": true
+    });
+
+    push.register(function(token) {
+      console.log("Device token:",token.token);
+    });
   });
 })
 
