@@ -75,3 +75,19 @@
     padding-top: 20px;
 }
 
+.fb-login{
+  background-color: rgb(77,105,174);
+  color:white;
+  font-size: 1.5em; 
+  width:80%;
+  height:65px;
+}
+
+.fb-login:hover{
+  background-color: #3b5998;
+  color:white;
+  font-size: 1.5em; 
+  width:80%;
+  height:65px;
+}
+
