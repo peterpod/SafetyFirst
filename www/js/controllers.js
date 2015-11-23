@@ -1,6 +1,6 @@
 // add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
-.controller('LoginCtrl', function ($scope, $rootScope, $ionicModal, $state, $ionicSideMenuDelegate, $timeout, ngFB) {
+.controller('LoginCtrl', function ($scope, ngFB) {
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -22,7 +22,43 @@ angular.module('app.controllers', ['ngOpenFB'])
   };
 
 
-}).controller('ProfileCtrl', function ($scope, ngFB) {
+}).controller('ProfileCtrl', function ($scope, $http, ngFB) {
+    // Define relevant info
+    var privateKey = '4933d7aa4587868fe4be8b53341eb1a42e75d60adcdd7fd8';
+    var tokens = [window.token];
+    console.log(tokens);
+    var appId = 'a4067d1c';
+
+    // Encode your key
+    var auth = btoa(privateKey + ':');
+
+    // Build the request object
+    var req = {
+      method: 'POST',
+      url: 'https://push.ionic.io/api/v1/push',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Ionic-Application-Id': appId,
+        'Authorization': 'basic ' + auth
+      },
+      data: {
+        "tokens": tokens,
+        "notification": {
+          "alert":"Hello World!"
+        }
+      }
+    };
+
+
+    // Make the API call
+    $http(req).success(function(resp){
+      // Handle success
+      console.log("Ionic Push: Push success!");
+    }).error(function(error){
+      // Handle error 
+      console.log(error);
+    });
+
     ngFB.api({
         path: '/me',
         params: {fields: 'id,name'}
@@ -34,17 +70,10 @@ angular.module('app.controllers', ['ngOpenFB'])
             alert('Facebook error: ' + error.error_description);
         });
 })
-.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate, $ionicModal) {
+.controller('MapCtrl', function($scope, $http, $ionicLoading, $ionicModal) {
     console.log("here is our map");
     $scope.ParseAlert = Parse.Object.extend("Alerts");
     $scope.parseQuery = new Parse.Query($scope.ParseAlert);
-
-    $scope.toggleLeftSideMenu = function() {
-        console.log("calling toggle");
-        setTimeout(function(){
-            $ionicSideMenuDelegate.toggleLeft(true);
-        }, 1000);
-    };
  
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
 

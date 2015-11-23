@@ -22,17 +22,25 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
-    
+
     var push = new Ionic.Push({
-      "debug": true
+      "debug": true,
+      "onNotification": function(notification) {
+        var payload = notification.payload;
+        console.log(notification, payload);
+      },
+      "onRegister": function(data) {
+        console.log(data.token);
+      }
     });
 
+
     push.register(function(token) {
+      window.token = token;
       console.log("Device token:",token.token);
     });
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
