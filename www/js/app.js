@@ -42,40 +42,41 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
     });
 
     function pushCallback(){
-      var privateKey = '4933d7aa4587868fe4be8b53341eb1a42e75d60adcdd7fd8';
-      var tokens = [window.token];
-      console.log(tokens);
-      var appId = 'a4067d1c';
+      // var privateKey = '4933d7aa4587868fe4be8b53341eb1a42e75d60adcdd7fd8';
+      // var tokens = [window.token];
+      // console.log(tokens);
+      // var appId = 'a4067d1c';
 
-      // Encode your key
-      var auth = btoa(privateKey + ':');
+      // // Encode your key
+      // var auth = btoa(privateKey + ':');
 
-      // Build the request object
-      var req = {
-        method: 'POST',
-        url: 'https://push.ionic.io/api/v1/push',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Ionic-Application-Id': appId,
-          'Authorization': 'basic ' + auth
-        },
-        data: {
-          "tokens": tokens,
-          "notification": {
-            "alert":"Hello World!"
-          }
-        }
-      };
+      // // Build the request object
+      // var req = {
+      //   method: 'POST',
+      //   url: 'https://push.ionic.io/api/v1/push',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'X-Ionic-Application-Id': appId,
+      //     'Authorization': 'basic ' + auth
+      //   },
+      //   data: {
+      //     "tokens": tokens,
+      //     "notification": {
+      //       "alert":"Hello World!"
+      //     }
+      //   }
+      // };
 
-      // Make the API call
-      $http(req).success(function(resp){
-        // Handle success
-        console.log("Ionic Push: Push success!");
-      }).error(function(error){
-        // Handle error 
-        console.log(error);
-      });
+      // // Make the API call
+      // $http(req).success(function(resp){
+      //   // Handle success
+      //   console.log("Ionic Push: Push success!");
+      // }).error(function(error){
+      //   // Handle error 
+      //   console.log(error);
+      // });
     }
+
   });
 })
 .config(function($stateProvider, $urlRouterProvider) {

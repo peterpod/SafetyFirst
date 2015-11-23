@@ -106,7 +106,6 @@ angular.module('app.controllers', ['ngOpenFB'])
             {text: "High", value: "high"}
         ];
         $scope.createAlert = function(info){
-            console.log(info);
             parseAlert.set("severity", $scope.alert.sev);
             parseAlert.set("title", info.title);
             parseAlert.set("description", info.description);
