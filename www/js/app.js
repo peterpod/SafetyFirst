@@ -35,12 +35,14 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
     });
 
 
+    // register device for push
     push.register(function(token) {
       window.token = token;
       console.log("Device token:",token.token);
       pushCallback();
     });
 
+    /* This will send pushes using Ionic Push */
     function pushCallback(){
       // var privateKey = '4933d7aa4587868fe4be8b53341eb1a42e75d60adcdd7fd8';
       // var tokens = [window.token];

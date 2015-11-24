@@ -39,6 +39,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     console.log("here is our map");
     $scope.ParseAlert = Parse.Object.extend("Alerts");
     $scope.parseQuery = new Parse.Query($scope.ParseAlert);
+    
  
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
 
