@@ -1,24 +1,26 @@
 <ion-view view-title="Safety First" name="login-view">
   <ion-content class="padding">
-    <form action="#/tab/map">
+<!--     <form action="#/tab/map"> -->
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
+            <span class="input-label">Username</span>
+            <input type="text" placeholder="enter username..." ng-model="data.username">
         </label>
         <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
+            <span class="input-label">Password</span>
+            <input type="password" placeholder="At least 6 characters" ng-model="data.password">
         </label>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
+          <button class="button button-block button-positive" ng-click="loginEmail()">Log in</button>
         </label>
         <label class="item">
           <button class="button button-block button-positive" ng-click="fbLogin()">
           Login with Facebook
-          </button>
-      </label>
-      </div>
-    </form>
+        </button>
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" ng-click="signup()">Sign Up</button>
+        </label>
+      </div>  
   </ion-content>
 </ion-view>
