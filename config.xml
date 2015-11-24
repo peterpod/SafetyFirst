@@ -9,7 +9,7 @@
     </author>
   <content src="index.html"/>
   <allow-navigation href="*" />
-  <access origin="*" />
+  <access origin="http://maps.google.com" />.
   <allow-intent href="*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

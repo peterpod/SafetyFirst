@@ -156,8 +156,8 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
     })
   .state('login', {
       url: '/login',
-      templateUrl: 'templates/login.html',
-      controller: 'LoginCtrl'
+      templateUrl: 'templates/login.html'
+      //,controller: 'LoginCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback
