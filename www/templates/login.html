@@ -1,4 +1,4 @@
-<ion-view view-title="Safety First" name="login-view">
+<!-- <ion-view view-title="Safety First" name="login-view">
   <ion-content class="padding">
     <form action="#/tab/map">
       <div class="list">
@@ -21,4 +21,32 @@
       </div>
     </form>
   </ion-content>
+</ion-view> -->
+
+
+
+<ion-view  name="login-view">
+<ion-view hide-nav-bar="true">
+    <ion-content scroll="false">
+        <section class="login-container">
+            
+            <form action="#/tab/map">
+                <div class = "col header text-center login-title">
+                  <!-- <img src="./img/ionic.png" class = "logo" /> -->
+                  Safety<br> First
+                </div>
+
+
+
+                <label class="col button-row text-center">
+                  <button class="button fb-login" ng-click="fbLogin()">
+                  <strong>Connect with</strong> Facebook
+                  </button>
+                </label>
+
+            </form>
+            
+                       
+        </section>
+    </ion-content>
 </ion-view>
