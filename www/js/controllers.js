@@ -125,7 +125,8 @@ angular.module('app.controllers', ['ngOpenFB'])
     });
 
     function alertControl(alertDiv, map){
-        parseAlert = new $scope.ParseAlert();
+        var ParseAlert = Parse.Object.extend("Alerts");
+        var parseAlert = new ParseAlert();
         $ionicModal.fromTemplateUrl('my-modal.html', {
         scope: $scope,
         animation: 'slide-in-up'
@@ -167,7 +168,6 @@ angular.module('app.controllers', ['ngOpenFB'])
                 }
             });
             info = {};
-            
         };
           //Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function() {
