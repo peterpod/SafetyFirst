@@ -8,20 +8,16 @@
           Safety<br> First
         </div>
 
-        <label class="item item-input">
-            <span class="input-label">Username</span>
-            <input type="text" placeholder="enter username..." ng-model="data.username">
-        </label>
-        <label class="item item-input">
-            <span class="input-label">Password</span>
-            <input type="password" placeholder="At least 6 characters" ng-model="data.password">
-        </label>
-        <label class="col button-row text-center">
-          <button class="button button-block button-positive" ng-click="loginEmail()">Log in</button>
-        </label>
-        <label class="col button-row text-center">
-          <button class="button button-block button-positive" ng-click="signup()">Sign Up</button>
-        </label> 
+        <div class="row">
+          <label class="col button-row text-center">
+            <button class="button fb-login" ng-click="login()">Log in</button>
+          </label>
+        </div>
+        <div class= "row">
+          <label class="col button-row text-center">
+            <button class="button fb-login" ng-click="signup()">Sign Up</button>
+          </label>
+        </div> 
         <label class="col button-row text-center">
           <button class="button fb-login" ng-click="fbLogin()">
           <strong>Connect with</strong> Facebook

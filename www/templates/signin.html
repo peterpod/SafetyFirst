@@ -1,4 +1,4 @@
-<ion-view title="Sign Up">
+<ion-view title="Login">
     <ion-content padding="true" class="has-header">
         <ion-list>
             <label class="item item-input">
@@ -6,14 +6,12 @@
                 <input type="text" placeholder="enter username..." ng-model="data.username">
             </label>
             <label class="item item-input">
-                <span class="input-label">Email</span>
-                <input type="email" placeholder="you@domain.com" ng-model="data.email">
-            </label>
-            <label class="item item-input">
                 <span class="input-label">Password</span>
                 <input type="password" placeholder="At least 6 characters" ng-model="data.password">
             </label>
+            <label class="col button-row text-center">
+                <button class="button button-stable button-block" ng-click="loginEmail()">Login</button>
+            </label>
         </ion-list>
-        <button class="button button-stable button-block" ng-click="signupEmail()">Done</button>
     </ion-content>
 </ion-view>

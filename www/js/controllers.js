@@ -7,6 +7,9 @@ angular.module('app.controllers', ['ngOpenFB'])
   $scope.signup = function(){
     $state.go('signup');
   }
+  $scope.login = function(){
+    $state.go('signin');
+  }
 
   $scope.signupEmail = function(){
       //Create a new user on Parse

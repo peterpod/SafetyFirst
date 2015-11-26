@@ -108,6 +108,11 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
     templateUrl: 'templates/signup.html',
     controller: 'LoginCtrl'
   })
+  .state('signin', {
+    url: '/signin',
+    templateUrl: 'templates/signin.html',
+    controller: 'LoginCtrl'
+  })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
