@@ -76,17 +76,10 @@ angular.module('app.controllers', ['ngOpenFB'])
             alert('Facebook error: ' + error.error_description);
         });
 })
-.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate, $ionicModal) {
+.controller('MapCtrl', function($scope, $ionicModal) {
     console.log("here is our map");
     $scope.ParseAlert = Parse.Object.extend("Alerts");
     $scope.parseQuery = new Parse.Query($scope.ParseAlert);
-
-    $scope.toggleLeftSideMenu = function() {
-        console.log("calling toggle");
-        setTimeout(function(){
-            $ionicSideMenuDelegate.toggleLeft(true);
-        }, 1000);
-    };
  
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
 

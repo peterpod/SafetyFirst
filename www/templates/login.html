@@ -1,7 +1,13 @@
-<ion-view view-title="Safety First" name="login-view">
-  <ion-content class="padding">
-<!--     <form action="#/tab/map"> -->
-      <div class="list">
+<ion-view name="login-view">
+  <ion-view hide-nav-bar="true">
+    <ion-content scroll="false">
+      <section class="login-container">
+            
+        <div class = "col header text-center login-title">
+          <!-- <img src="./img/ionic.png" class = "logo" /> -->
+          Safety<br> First
+        </div>
+
         <label class="item item-input">
             <span class="input-label">Username</span>
             <input type="text" placeholder="enter username..." ng-model="data.username">
@@ -10,17 +16,19 @@
             <span class="input-label">Password</span>
             <input type="password" placeholder="At least 6 characters" ng-model="data.password">
         </label>
-        <label class="item">
+        <label class="col button-row text-center">
           <button class="button button-block button-positive" ng-click="loginEmail()">Log in</button>
         </label>
-        <label class="item">
-          <button class="button button-block button-positive" ng-click="fbLogin()">
-          Login with Facebook
-        </button>
-        </label>
-        <label class="item">
+        <label class="col button-row text-center">
           <button class="button button-block button-positive" ng-click="signup()">Sign Up</button>
-        </label>
-      </div>  
+        </label> 
+        <label class="col button-row text-center">
+          <button class="button fb-login" ng-click="fbLogin()">
+          <strong>Connect with</strong> Facebook
+          </button>
+        </label>           
+                       
+      </section>
   </ion-content>
+</ion-view>
 </ion-view>
