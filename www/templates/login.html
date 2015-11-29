@@ -1,24 +1,30 @@
-<ion-view view-title="Safety First" name="login-view">
-  <ion-content class="padding">
-    <form action="#/tab/map">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" ng-click="fbLogin()">
-          Login with Facebook
+<ion-view name="login-view">
+  <ion-view hide-nav-bar="true">
+    <ion-content scroll="false">
+      <section class="login-container">
+            
+        <div class = "col header text-center login-title">
+          <!-- <img src="./img/ionic.png" class = "logo" /> -->
+          Safety<br> First
+        </div>
+
+        <div class="row">
+          <label class="col button-row text-center">
+            <button class="button fb-login" ng-click="login()">Log in</button>
+          </label>
+        </div>
+        <div class= "row">
+          <label class="col button-row text-center">
+            <button class="button fb-login" ng-click="signup()">Sign Up</button>
+          </label>
+        </div> 
+        <label class="col button-row text-center">
+          <button class="button fb-login" ng-click="fbLogin()">
+          <strong>Connect with</strong> Facebook
           </button>
-      </label>
-      </div>
-    </form>
+        </label>           
+                       
+      </section>
   </ion-content>
+</ion-view>
 </ion-view>

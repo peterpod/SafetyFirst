@@ -86,7 +86,7 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       views: {
         'tab-list': {
           templateUrl: 'templates/tab-alertList.html',
-          controller: 'MapCtrl'
+          controller: 'ListCtrl'
         }
       }
     })
@@ -103,6 +103,16 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       url: '/login',
       templateUrl: 'templates/login.html',
       controller: 'LoginCtrl'
+  })
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'templates/signup.html',
+    controller: 'LoginCtrl'
+  })
+  .state('signin', {
+    url: '/signin',
+    templateUrl: 'templates/signin.html',
+    controller: 'LoginCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback

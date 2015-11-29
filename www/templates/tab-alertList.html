@@ -5,17 +5,16 @@
     <ion-content scroll="false">
         <ion-slide-box show-pager="false" ion-slide-tabs>
             <ion-slide ion-slide-tab-label="Nearby">
-
               <div class="list">
 
-                  <ion-item>
+                  <ion-item ng-repeat="alert in alerts">
                     <div class="item-icon-left">
                         <i class="icon ion-alert-circled"></i>
-                        <h3>Alert text goes here lorem ipsum...</h3>
+                        <h3>{{alert.title}}</h3>
                         
                         <div class = "alertListDetails">
-                          <p class="ion-ios-clock-outline">&nbsp 30</p>
-                          <p class="addSpace ion-ios-location-outline">&nbsp 0.1 mi</p>
+                          <p class="ion-ios-clock-outline">{{alert.created}}</p>
+                          <p class="addSpace ion-ios-location-outline">{{alert.distance}} mi</p>
                         </div>
                     </div>
                     <div class="item-icon-right">
@@ -24,86 +23,6 @@
 
                   </ion-item>
 
-                  <ion-item>
-                    <div class="item-icon-left">
-                        <i class="icon ion-alert-circled"></i>
-                        <h3>Alert text goes here lorem ipsum...</h3>
-                        
-                        <div class = "alertListDetails">
-                          <p class="ion-ios-clock-outline">&nbsp 30</p>
-                          <p class="addSpace ion-ios-location-outline">&nbsp 0.1 mi</p>
-                        </div>
-                    </div>
-                    <div class="item-icon-right">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </div>
-
-                  </ion-item>
-
-                  <ion-item>
-                    <div class="item-icon-left">
-                        <i class="icon ion-alert-circled"></i>
-                        <h3>Alert text goes here lorem ipsum...</h3>
-                        
-                        <div class = "alertListDetails">
-                          <p class="ion-ios-clock-outline">&nbsp 30</p>
-                          <p class="addSpace ion-ios-location-outline">&nbsp 0.1 mi</p>
-                        </div>
-                    </div>
-                    <div class="item-icon-right">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </div>
-
-                  </ion-item>
-
-                  <ion-item>
-                    <div class="item-icon-left">
-                        <i class="icon ion-alert-circled"></i>
-                        <h3>Alert text goes here lorem ipsum...</h3>
-                        
-                        <div class = "alertListDetails">
-                          <p class="ion-ios-clock-outline">&nbsp 30</p>
-                          <p class="addSpace ion-ios-location-outline">&nbsp 0.1 mi</p>
-                        </div>
-                    </div>
-                    <div class="item-icon-right">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </div>
-
-                  </ion-item>
-
-                  <ion-item>
-                    <div class="item-icon-left">
-                        <i class="icon ion-alert-circled"></i>
-                        <h3>Alert text goes here lorem ipsum...</h3>
-                        
-                        <div class = "alertListDetails">
-                          <p class="ion-ios-clock-outline">&nbsp 30</p>
-                          <p class="addSpace ion-ios-location-outline">&nbsp 0.1 mi</p>
-                        </div>
-                    </div>
-                    <div class="item-icon-right">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </div>
-
-                  </ion-item>
-
-                  <ion-item>
-                    <div class="item-icon-left">
-                        <i class="icon ion-alert-circled"></i>
-                        <h3>Alert text goes here lorem ipsum...</h3>
-                        
-                        <div class = "alertListDetails">
-                          <p class="ion-ios-clock-outline">&nbsp 30</p>
-                          <p class="addSpace ion-ios-location-outline">&nbsp 0.1 mi</p>
-                        </div>
-                    </div>
-                    <div class="item-icon-right">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </div>
-
-                  </ion-item>
-                  
               </div>
 
 
