@@ -1,8 +1,53 @@
 // add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
-.controller('LoginCtrl', function ($scope, $rootScope, $ionicModal, $state, $ionicSideMenuDelegate, $timeout, ngFB) {
+.controller('LoginCtrl', function ($scope, $state, ngFB) {
   // Form data for the login modal
-  $scope.loginData = {};
+  $scope.data = {};
+    
+  $scope.signup = function(){
+    $state.go('signup');
+  }
+  $scope.login = function(){
+    $state.go('signin');
+  }
+
+  $scope.signupEmail = function(){
+      //Create a new user on Parse
+      var user = new Parse.User();
+      user.set("username", $scope.data.username);
+      user.set("password", $scope.data.password);
+      user.set("email", $scope.data.email);
+     
+     
+      user.signUp(null, {
+        success: function(user) {
+          // Hooray! Let them use the app now.
+          alert("Success! You have now signed up.");
+          $state.go('tab.map');
+        },
+        error: function(user, error) {
+          // Show the error message somewhere and let the user try again.
+          alert("Error: " + error.code + " " + error.message);
+        }
+      });
+     
+    };
+ 
+  $scope.loginEmail = function(){
+      Parse.User.logIn($scope.data.username, $scope.data.password, {
+        success: function(user) {
+          // Do stuff after successful login.
+          console.log(user);
+          alert("Success! You have now logged in.");
+          $state.go('tab.map');
+        },
+        error: function(user, error) {
+          // The login failed. Check error to see why.
+          alert("You've provided the wrong credentials! Please try again.");
+        }
+      });
+    };
+
 
   $scope.fbLogin = function () {
     ngFB.login({scope: 'email'}).then(
