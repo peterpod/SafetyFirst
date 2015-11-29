@@ -97,13 +97,20 @@ angular.module('app.controllers', ['ngOpenFB'])
     var myAlert = new alertControl(alertDiv, map);
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(alertDiv);
 
-    function setMarker(map, lat, lon, title, content){
+    function setMarker(map, lat, lon, title, content, severity){
+        var icon = "../img/highAlert.png";
+        if (severity=="Low"){
+            var icon = "../img/lowAlert.png";
+        }else if (severity=="Medium"){
+            var icon = "../img/mediumAlert.png";
+        };
         var contentString = '<div id="alertTitle">'+ title+'</div>'+'<br/>'+'<div id="alertDescr">' 
             + content + '</div>';
         var alertMarker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lon),
             map: map,
-            title: title
+            title: title,
+            icon: icon
         });
         var infowindow = new google.maps.InfoWindow();
             google.maps.event.addListener(alertMarker, 'click', (function(alertMarker) {
@@ -113,6 +120,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 }
             })(alertMarker));
     }
+
     navigator.geolocation.getCurrentPosition(function(pos) {
         map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
         map.latitude = pos.coords.latitude;
@@ -128,7 +136,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 console.log(results);
                 for (var i=0; i<results.length; i++){
                     var alert = results[i];
-                    setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"));
+                    setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"));
                 }
             }, error: function(error){
                 console.log(error.message);
