@@ -219,4 +219,107 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     }
     $scope.map = map;
+}).controller('ListCtrl', function($scope) {
+    Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
+    $scope.alerts = [];
+    $scope.ParseAlert = Parse.Object.extend("Alerts");
+    $scope.parseQuery = new Parse.Query($scope.ParseAlert);
+    var myPos = [40.4428285, -79.9561175];
+    navigator.geolocation.getCurrentPosition(function(pos) {
+        myPos[0] = pos.coords.latitude;
+        myPos[1] = pos.coords.longitude;
+    });
+    console.log(myPos);
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var radlon1 = Math.PI * lon1/180
+        var radlon2 = Math.PI * lon2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        return dist* 0.8684
+    }
+
+        function sign(num) {
+        // IE does not support method sign here
+        if (typeof Math.sign === 'undefined') {
+            if (num > 0) {
+                return 1;
+            }
+            if (num < 0) {
+                return -1;
+            }
+            return 0;
+        }
+        return Math.sign(num);
+    }
+
+    function precise_round(num, decimals) {
+        var t=Math.pow(10, decimals);
+        return (Math.round((num * t) + (decimals>0?1:0)*(sign(num) * (10 / Math.pow(100, decimals)))) / t).toFixed(decimals);
+    }
+
+    function getTimeElapsed(createdAt){
+        var now = new Date();
+        var created_at = new Date(createdAt);
+        console.log(now);
+        console.log(createdAt);
+        console.log(now-created_at);
+        var timeDiff = (now-created_at)
+        // strip the ms
+        timeDiff /= 1000;
+
+        // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
+        var seconds = Math.round(timeDiff % 60);
+        var timeElapsed = seconds + " Seconds";
+        // remove seconds from the date
+        timeDiff = Math.floor(timeDiff / 60);
+
+        // get minutes
+        var minutes = Math.round(timeDiff % 60);
+
+        // remove minutes from the date
+        timeDiff = Math.floor(timeDiff / 60);
+
+        // get hours
+        var hours = Math.round(timeDiff % 24);
+
+        // remove hours from the date
+        timeDiff = Math.floor(timeDiff / 24);
+
+        // the rest of timeDiff is number of days
+        var days = timeDiff ;
+
+        if (minutes!=0){
+            timeElapsed = minutes + " Minutes";
+        }if(hours!=0){
+            timeElapsed = hours + " Hours " + minutes + " Minutes";
+        }if(days!=0){
+            timeElapsed = days + " Days";
+        }
+        return timeElapsed;
+    }
+    $scope.parseQuery.find({
+        success:function(results){
+            // $scope.alerts = results;
+            for (var i=0; i<results.length; i++){
+                var alert = results[i];
+                var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
+                console.log("alert loc" + [alert.get("location")[0], alert.get("location")[1]]);
+                var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
+                var timeElapsed = getTimeElapsed(alert.get("createdAt"));
+                console.log(timeElapsed);
+                // var distance = google.maps.geometry.spherical.computeDistanceBetween(myLatLng, alertLatLng)
+                $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance});
+                console.log($scope.alerts);
+            }
+        }, error: function(error){
+            console.log(error.message);
+        }
+    });
 });

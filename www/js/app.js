@@ -86,7 +86,7 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       views: {
         'tab-list': {
           templateUrl: 'templates/tab-alertList.html',
-          controller: 'MapCtrl'
+          controller: 'ListCtrl'
         }
       }
     })
