@@ -80,22 +80,52 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
 })
 .controller('MapCtrl', function($scope, $ionicModal) {
-    console.log("here is our map");
-    $scope.ParseAlert = Parse.Object.extend("Alerts");
-    $scope.parseQuery = new Parse.Query($scope.ParseAlert);
- 
-    var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
 
-    var mapOptions = {
-        center: myLatlng,
-        zoom: 16,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+    $scope.$on( "$ionicView.enter", function( scopes, states ) {
+           google.maps.event.trigger( map, 'resize' );
+           init();
+    });
+
+    function init(){
+        console.log("here is our map");
+        $scope.ParseAlert = Parse.Object.extend("Alerts");
+        $scope.parseQuery = new Parse.Query($scope.ParseAlert);
+     
+        var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
+
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        var alertDiv = document.createElement('div');
+        var myAlert = new alertControl(alertDiv, map);
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(alertDiv);
+
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            map.latitude = pos.coords.latitude;
+            map.longitude = pos.coords.longitude;
+            var myLocation = new google.maps.Marker({
+                position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+                map: map,
+                title: "My Location"
+            });
+            Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
+            $scope.parseQuery.find({
+                success:function(results){
+                    for (var i=0; i<results.length; i++){
+                        var alert = results[i];
+                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity")); 
+                    }
+                }, error: function(error){
+                    console.log(error.message);
+                }
+            });
+        });
     };
-
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    var alertDiv = document.createElement('div');
-    var myAlert = new alertControl(alertDiv, map);
-    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(alertDiv);
 
     function setMarker(map, lat, lon, title, content, severity){
         var icon = "../img/highAlert.png";
@@ -119,30 +149,10 @@ angular.module('app.controllers', ['ngOpenFB'])
                     infowindow.open(map, alertMarker);
                 }
             })(alertMarker));
+        console.log(alertMarker);
+        console.log(title);
+        console.log(lat, lon);
     }
-
-    navigator.geolocation.getCurrentPosition(function(pos) {
-        map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-        map.latitude = pos.coords.latitude;
-        map.longitude = pos.coords.longitude;
-        var myLocation = new google.maps.Marker({
-            position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-            map: map,
-            title: "My Location"
-        });
-        Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
-        $scope.parseQuery.find({
-            success:function(results){
-                console.log(results);
-                for (var i=0; i<results.length; i++){
-                    var alert = results[i];
-                    setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"));
-                }
-            }, error: function(error){
-                console.log(error.message);
-            }
-        });
-    });
 
     function alertControl(alertDiv, map){
         var ParseAlert = Parse.Object.extend("Alerts");
@@ -267,10 +277,8 @@ angular.module('app.controllers', ['ngOpenFB'])
     function getTimeElapsed(createdAt){
         var now = new Date();
         var created_at = new Date(createdAt);
-        console.log(now);
-        console.log(createdAt);
-        console.log(now-created_at);
         var timeDiff = (now-created_at)
+        $scope.timeDifference = timeDiff;
         // strip the ms
         timeDiff /= 1000;
 
@@ -296,10 +304,22 @@ angular.module('app.controllers', ['ngOpenFB'])
         var days = timeDiff ;
 
         if (minutes!=0){
+            if (minutes ==1){
+                timeElapsed = minutes + "Minute";
+            }
             timeElapsed = minutes + " Minutes";
         }if(hours!=0){
+            if (hours ==1){
+                if (minutes ==1){
+                    timeElapsed = hours + "Hour" + minutes + " Minute";
+                }
+                timeElapsed = hours + "Hour" + minutes + " Minutes";
+            }
             timeElapsed = hours + " Hours " + minutes + " Minutes";
         }if(days!=0){
+            if (days==1){
+                timeElapsed = days + " Day";
+            }
             timeElapsed = days + " Days";
         }
         return timeElapsed;
@@ -312,14 +332,60 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
                 console.log("alert loc" + [alert.get("location")[0], alert.get("location")[1]]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
+                $scope.timeDifference;
                 var timeElapsed = getTimeElapsed(alert.get("createdAt"));
-                console.log(timeElapsed);
                 // var distance = google.maps.geometry.spherical.computeDistanceBetween(myLatLng, alertLatLng)
-                $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance});
+                $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
                 console.log($scope.alerts);
             }
         }, error: function(error){
             console.log(error.message);
         }
     });
+}).controller('AlertCtrl', function($scope) {
+    var ParseAlert = Parse.Object.extend("Alerts");
+    var parseAlert = new ParseAlert();
+    var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
+
+    var mapOptions = {
+        center: myLatlng,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    navigator.geolocation.getCurrentPosition(function(pos) {
+            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            map.latitude = pos.coords.latitude;
+            map.longitude = pos.coords.longitude;
+    });
+
+    $scope.alert = {
+        sev: "high"
+    };
+    $scope.changeSeverity = function(sev){
+        $scope.alert.sev = sev;
+    }
+    $scope.severityList = [
+        {text: "Low", value: "low"},
+        {text: "Medium", value: "med"},
+        {text: "High", value: "high"}
+    ];
+    $scope.createAlert = function(info){
+        console.log(info);
+        parseAlert.set("severity", $scope.alert.sev);
+        parseAlert.set("title", info.title);
+        parseAlert.set("description", info.description);
+        parseAlert.set("location", [map.latitude, map.longitude])
+        parseAlert.set("active", true);
+        parseAlert.save(null, {
+            success: function(parseAlert){
+                alert('Alert has been created ' + parseAlert.id);
+            },
+            error: function(parseAlert, error){
+                alert('Failed to create alert ' + error.message);
+            }
+        });
+        info = {};
+    };
 });

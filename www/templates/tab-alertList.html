@@ -7,7 +7,7 @@
             <ion-slide ion-slide-tab-label="Nearby">
               <div class="list">
 
-                  <ion-item ng-repeat="alert in alerts">
+                  <ion-item ng-repeat="alert in alerts  | orderBy:'timeDiff'">
                     <div class="item-icon-left">
                         <i class="icon ion-alert-circled"></i>
                         <h3>{{alert.title}}</h3>

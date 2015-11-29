@@ -69,7 +69,8 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
     url: '/report',
     views: {
       'tab-report': {
-        templateUrl: 'templates/tab-report.html'
+        templateUrl: 'templates/tab-report.html',
+        controller: 'AlertCtrl'
       }
     }
   })
