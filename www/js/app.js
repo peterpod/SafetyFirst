@@ -69,7 +69,8 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
     url: '/report',
     views: {
       'tab-report': {
-        templateUrl: 'templates/tab-report.html'
+        templateUrl: 'templates/tab-report.html',
+        controller: 'AlertCtrl'
       }
     }
   })
@@ -85,7 +86,8 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       url: '/list',
       views: {
         'tab-list': {
-          templateUrl: 'templates/tab-alertList.html'
+          templateUrl: 'templates/tab-alertList.html',
+          controller: 'ListCtrl'
         }
       }
     })
