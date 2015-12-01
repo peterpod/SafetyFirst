@@ -125,7 +125,8 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
     url: '/report',
     views: {
       'tab-report': {
-        templateUrl: 'templates/tab-report.html'
+        templateUrl: 'templates/tab-report.html',
+        controller: 'AlertCtrl'
       }
     }
   })
@@ -141,7 +142,8 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
       url: '/list',
       views: {
         'tab-list': {
-          templateUrl: 'templates/tab-alertList.html'
+          templateUrl: 'templates/tab-alertList.html',
+          controller: 'ListCtrl'
         }
       }
     })
@@ -158,6 +160,16 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
       url: '/login',
       templateUrl: 'templates/login.html'
       //,controller: 'LoginCtrl'
+  })
+  .state('signup', {
+    url: '/signup',
+    templateUrl: 'templates/signup.html',
+    controller: 'LoginCtrl'
+  })
+  .state('signin', {
+    url: '/signin',
+    templateUrl: 'templates/signin.html',
+    controller: 'LoginCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback

@@ -1,41 +1,43 @@
 <ion-view view-title="Safety First">
   <ion-content>
-  	<div class="list">
-	  <label class="item item-input">
-	    <span class="input-label">Title</span>
-	    <input type="text" style="text-align: right;" placeholder="Robbery">
-	  </label>
+   <form ng-submit="createAlert(alertInfo)">
+	  	<div class="list">
+		  <label class="item item-input">
+		    <span class="input-label">Title</span>
+		    <input type="text" style="text-align: right;" placeholder="Robbery" ng-model="alertInfo.title">
+		  </label>
 
-	  <label class="item item-input item-select">
-	    <div class="input-label">
-	      Severity
-	    </div>
-	    <select>
-	      <option>Low</option>
-	      <option selected>Medium</option>
-	      <option>High</option>
-	    </select>
-	  </label>
+		  <label class="item item-input item-select">
+		    <div class="input-label">
+		      Severity
+		    </div>
+		    <select ng-model="alertInfo.sev" ng-change="changeSeverity(alertInfo.sev)">
+		      <option ng-value="Low" ng-model="alertInfo.sev">Low</option>
+		      <option ng-value="Medium" ng-model="alertInfo.sev">Medium</option>
+		      <option selected ng-value="High" ng-model="alertInfo.sev">High</option>
+		    </select>
+		  </label>
 
-	  <label class="item item-input" style="background-color: #eaeaea;">
-	    <span class="input-label"><h3> Add a Description </h3></span>
-	  </label>
+		  <label class="item item-input" style="background-color: #eaeaea;">
+		    <span class="input-label"><h3> Add a Description </h3></span>
+		  </label>
 
-	  <label class="item item-input">
-	    <textarea placeholder="Description"></textarea>
-	  </label>
+		  <label class="item item-input">
+		    <textarea placeholder="Description" ng-model="alertInfo.description"></textarea>
+		  </label>
 
-	<div class="item">
-		<button class="button button-block button-positive icon-left ion-camera">Take Photo</button>
-	</div>
-	<div class="item">
-		<button class="button button-block button-positive icon-left ion-ios-upload">Upload Photo</button>
-	</div>
+		<div class="item">
+			<button class="button button-block button-positive icon-left ion-camera">Take Photo</button>
+		</div>
+		<div class="item">
+			<button class="button button-block button-positive icon-left ion-ios-upload">Upload Photo</button>
+		</div>
 
-	<div class="padding">
-		<button class="button button-block button-positive">Submit</button>
-	</div>
+		<div class="padding">
+			<button class="button button-block button-positive">Submit</button>
+		</div>
 
-	</div>
+		</div>
+	</form>
 	</ion-content>
 </ion-view>

@@ -1,0 +1,17 @@
+<ion-view title="Login">
+    <ion-content padding="true" class="has-header">
+        <ion-list>
+            <label class="item item-input">
+                <span class="input-label">Username</span>
+                <input type="text" placeholder="enter username..." ng-model="data.username">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Password</span>
+                <input type="password" placeholder="At least 6 characters" ng-model="data.password">
+            </label>
+            <label class="col button-row text-center">
+                <button class="button button-stable button-block" ng-click="loginEmail()">Login</button>
+            </label>
+        </ion-list>
+    </ion-content>
+</ion-view>
