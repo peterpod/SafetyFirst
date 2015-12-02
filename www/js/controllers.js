@@ -54,6 +54,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         function (response) {
             if (response.status === 'connected') {
                 console.log('Facebook login succeeded');
+                $state.go('tab.map');
             } else {
                 alert('Facebook login failed');
             }
