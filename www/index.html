@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -19,7 +20,9 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+<!--     // <script src="js/ng-cordova.min.js"></script>
+    // <script src="cordova.js"></script> -->
+
     <script src="js/openfb.js"></script>
     <script src="js/ngopenfb.js"></script>
 
@@ -76,6 +79,6 @@
         </ion-content>
       </ion-modal-view>
     </script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBb4-va80WwmX3fI0u_G0hbLaGo4M0THnc"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBb4-va80WwmX3fI0u_G0hbLaGo4M0THnc"></script>
   </body>
 </html>

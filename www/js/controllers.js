@@ -128,11 +128,11 @@ angular.module('app.controllers', ['ngOpenFB'])
     };
 
     function setMarker(map, lat, lon, title, content, severity){
-        var icon = "../img/highAlert.png";
+        var icon = "img/highAlert.png";
         if (severity=="Low"){
-            var icon = "../img/lowAlert.png";
+            var icon = "img/lowAlert.png";
         }else if (severity=="Medium"){
-            var icon = "../img/mediumAlert.png";
+            var icon = "img/mediumAlert.png";
         };
         var contentString = '<div id="alertTitle">'+ title+'</div>'+'<br/>'+'<div id="alertDescr">' 
             + content + '</div>';
