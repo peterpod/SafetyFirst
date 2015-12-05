@@ -56,12 +56,23 @@
 
 
 /********* CALL FOR HELP *********/
+
+.contact{
+  margin-bottom: -2em;
+}
+
+.contact-buttons button{
+  border-width: 1px;
+  
+}
+
 .full-screen{
   width: 100%;
 }
 
 .half-screen{
-  width:49%;
+  width:49.4%;
+
 }
 
 .left-icon{
