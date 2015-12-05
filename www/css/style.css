@@ -1,4 +1,18 @@
 /* Empty. Add your own CSS if you like */
+
+
+/***** FONTS *****/
+
+
+p, h2{
+  font-family: 'Open Sans', sans-serif;
+}
+
+button{
+  font-family: 'Open Sans', sans-serif;
+}
+
+
 .scroll {
     height: 100%;
 }
