@@ -54,6 +54,19 @@
 
 
 
+
+/********* CALL FOR HELP *********/
+.full-screen{
+  width: 100%;
+}
+
+.left-icon{
+  float:left;
+}
+
+
+
+
 /********* LOGIN CSS *********/
 
 /*referenced from: http://www.joshmorony.com/creating-an-attractive-login-screen-in-ionic-with-flexbox/*/
