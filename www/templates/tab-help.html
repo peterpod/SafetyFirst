@@ -23,21 +23,26 @@
       <div class="item item-divider">Emergency Contacts</div>
       
       <ion-item>
-        <div class="left">
+        <div class="item-thumbnail-left">
+            <img src="img/blank-person.jpg"/>
             Mom
         </div>
         <div class="item-button-right">
             <div class="buttons">
               <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
-              <button class="button button-positive"><i class="icon ion-android-textsms"></i></button>
+              <button class="button button-positive"><i class="icon ion-android-textsms"></i></button></a>
 
             </div>    
 
         </div>
 
-      </ion-item>
 
-      <ion-item>
+      </ion-item>
+      <button class="button button-assertive half-screen"><i class="icon ion-ios-telephone left-icon"></i><strong>Call</strong></button>
+
+      <a href="sms:1234567890 &body=Help me!"><button class="button button-assertive half-screen"><i class="icon ion-android-textsms left-icon"></i><strong>Text now</strong></button></a>
+
+      <!-- <ion-item>
         <div class="left">
             Dad
         </div>
@@ -65,7 +70,7 @@
 
         </div>
 
-      </ion-item>
+      </ion-item> -->
 
 
     </div>
@@ -78,6 +83,16 @@
         <img src="img/hospital-contact.png">
         <h2>UPMC</h2>
         <p class="ion-ios-location-outline">&nbsp 0.1 mi</p>
+
+        <div class="item-button-right">
+          <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
+        </div>
+      </div>
+
+      <div class="item item-avatar">
+        <img src="img/hospital-contact.png">
+        <h2>Carnegie Mellon Campus Police</h2>
+        <p>Call to report suspicious activity</p>
 
         <div class="item-button-right">
           <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
