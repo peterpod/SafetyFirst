@@ -1,4 +1,18 @@
 /* Empty. Add your own CSS if you like */
+
+
+/***** FONTS *****/
+
+
+p, h2{
+  font-family: 'Open Sans', sans-serif;
+}
+
+button{
+  font-family: 'Open Sans', sans-serif;
+}
+
+
 .scroll {
     height: 100%;
 }
@@ -54,6 +68,34 @@
 
 
 
+
+/********* CALL FOR HELP *********/
+
+.contact{
+  margin-bottom: -2em;
+}
+
+.contact-buttons button{
+  border-width: 1px;
+  
+}
+
+.full-screen{
+  width: 100%;
+}
+
+.half-screen{
+  width:49.4%;
+
+}
+
+.left-icon{
+  float:left;
+}
+
+
+
+
 /********* LOGIN CSS *********/
 
 /*referenced from: http://www.joshmorony.com/creating-an-attractive-login-screen-in-ionic-with-flexbox/*/
@@ -82,6 +124,7 @@
 
 .fb-login{
   background-color: rgb(77,105,174);
+  border: none;
   color:white;
   font-size: 1.5em; 
   width:80%;
