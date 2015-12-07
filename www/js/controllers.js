@@ -389,3 +389,5 @@ angular.module('app.controllers', ['ngOpenFB'])
         info = {};
     };
 });
+
+
