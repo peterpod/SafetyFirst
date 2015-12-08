@@ -2,10 +2,6 @@
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 
-// Parse.Cloud.define("hello", function(request, response) {
-//   response.success("Hello world!");
-// });
-
 /* Send a push notification to all users when an alert is added to the database */
 Parse.Cloud.afterSave("Alerts", function(request) {
   // Our "Alerts" class has a "title" key and description
