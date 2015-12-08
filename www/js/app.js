@@ -130,10 +130,14 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
         }
       }
     })
-  .state('alertDetails', {
+  .state('tab.details', {
       url: '/details',
-      templateUrl: 'templates/alertDetails.html',
-      controller: 'ListCtrl'
+      views:{
+        'tab-list': {
+          templateUrl: 'templates/alertDetails.html',
+          controller: 'ListCtrl'
+        }
+      }
     })
 
     .state('tab.settings', {
