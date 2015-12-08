@@ -69,16 +69,70 @@ angular.module('app.controllers', ['ngOpenFB'])
 
 
 }).controller('ProfileCtrl', function ($scope, ngFB) {
-    ngFB.api({
-        path: '/me',
-        params: {fields: 'id,name'}
-    }).then(
-        function (user) {
-            $scope.user = user;
-        },
-        function (error) {
-            alert('Facebook error: ' + error.error_description);
+    $scope.data = {};
+
+    /* Pull existing settings for current User */
+    var currentUser = Parse.User.current();
+    var user = Parse.Object.extend("User");
+    var query = new Parse.Query(user);
+    query.get(currentUser.id, {
+      success: function(curUser) {
+        console.log("object retreived ");
+        $scope.data.name = curUser.get("contactName");
+        $scope.data.phone = curUser.get("contactPhone");
+        $scope.data.address = curUser.get("Address");
+        curUser.save()
+        .then(
+          function() {
+            console.log('object saved');
+          }, 
+          function(error) {
+            console.log(error);
+          });
+      },
+      error: function(error) {
+        console.log("Error: " + error.code + " " + error.message);
+      }
+    });
+
+    /* Commented out Facebook authentication */
+    // ngFB.api({
+    //     path: '/me',
+    //     params: {fields: 'id,name'}
+    // }).then(
+    //     function (user) {
+    //         $scope.user = user;
+    //     },
+    //     function (error) {
+    //         alert('Facebook error: ' + error.error_description);
+    //     });
+
+    $scope.saveSettings = function(){
+        console.log("calling save");
+        var currentUser = Parse.User.current();
+
+        var user = Parse.Object.extend("User");
+        var query = new Parse.Query(user);
+        query.get(currentUser.id, {
+          success: function(curUser) {
+            console.log("object retreived ");
+            curUser.set("contactName", $scope.data.name);
+            curUser.set("contactPhone", $scope.data.phone);
+            curUser.set("Address", $scope.data.address);
+            curUser.save()
+            .then(
+              function() {
+                console.log('object saved');
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+          }
         });
+    };
 })
 .controller('MapCtrl', function($scope, $ionicModal) {
 
