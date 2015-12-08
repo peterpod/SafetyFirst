@@ -68,7 +68,8 @@ angular.module('app.controllers', ['ngOpenFB'])
   };
 
 
-}).controller('ProfileCtrl', function ($scope, ngFB) {
+}).controller('ProfileCtrl', function ($scope, $http, ngFB) {
+    // Define relevant info
     ngFB.api({
         path: '/me',
         params: {fields: 'id,name'}
@@ -182,7 +183,6 @@ angular.module('app.controllers', ['ngOpenFB'])
             {text: "High", value: "high"}
         ];
         $scope.createAlert = function(info){
-            console.log(info);
             parseAlert.set("severity", $scope.alert.sev);
             parseAlert.set("title", info.title);
             parseAlert.set("description", info.description);

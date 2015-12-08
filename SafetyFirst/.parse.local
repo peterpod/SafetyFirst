@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "SafetyFirst": {
+      "applicationId": "nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA"
+    },
+    "_default": {
+      "link": "SafetyFirst"
+    }
+  }
+}
