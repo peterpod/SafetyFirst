@@ -22,7 +22,7 @@ angular.module('app.controllers', ['ngOpenFB'])
       user.signUp(null, {
         success: function(user) {
           // Hooray! Let them use the app now.
-          alert("Success! You have now signed up.");
+          console.log("Success! You have now signed up.");
           $state.go('tab.map');
         },
         error: function(user, error) {
@@ -38,7 +38,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         success: function(user) {
           // Do stuff after successful login.
           console.log(user);
-          alert("Success! You have now logged in.");
+          console.log("Success! You have now logged in.");
           $state.go('tab.map');
         },
         error: function(user, error) {
@@ -70,16 +70,16 @@ angular.module('app.controllers', ['ngOpenFB'])
 
 }).controller('ProfileCtrl', function ($scope, $http, ngFB) {
     // Define relevant info
-    ngFB.api({
-        path: '/me',
-        params: {fields: 'id,name'}
-    }).then(
-        function (user) {
-            $scope.user = user;
-        },
-        function (error) {
-            alert('Facebook error: ' + error.error_description);
-        });
+    // ngFB.api({
+    //     path: '/me',
+    //     params: {fields: 'id,name'}
+    // }).then(
+    //     function (user) {
+    //         $scope.user = user;
+    //     },
+    //     function (error) {
+    //         alert('Facebook error: ' + error.error_description);
+    //     });
 })
 .controller('MapCtrl', function($scope, $ionicModal) {
 
@@ -191,7 +191,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             parseAlert.save(null, {
                 success: function(parseAlert){
                     $scope.closeModal();
-                    alert('Alert has been created ' + parseAlert.id);
+                    console.log('Alert has been created ' + parseAlert.id);
                 },
                 error: function(parseAlert, error){
                     $scope.closeModal();
@@ -343,7 +343,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             console.log(error.message);
         }
     });
-}).controller('AlertCtrl', function($scope) {
+}).controller('AlertCtrl', function($scope, $state) {
     var ParseAlert = Parse.Object.extend("Alerts");
     var parseAlert = new ParseAlert();
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
@@ -381,10 +381,11 @@ angular.module('app.controllers', ['ngOpenFB'])
         parseAlert.set("active", true);
         parseAlert.save(null, {
             success: function(parseAlert){
-                alert('Alert has been created ' + parseAlert.id);
+                console.log('Alert has been created ' + parseAlert.id);
+                $state.go('tab.map');
             },
             error: function(parseAlert, error){
-                alert('Failed to create alert ' + error.message);
+                console.log('Failed to create alert ' + error.message);
             }
         });
         info = {};
