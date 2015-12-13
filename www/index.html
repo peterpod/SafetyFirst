@@ -59,6 +59,9 @@
       <ion-modal-view class="alertModal">
         <ion-header-bar>
           <h1 class="title">Create an alert</h1>
+          <button class="button" ng-click="closeModal()">
+            <i class="ion-close-round"></i>
+          </button>
         </ion-header-bar>
         <ion-content>
         <form ng-submit="createAlert(alertInfo)">
