@@ -137,12 +137,39 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.data.name = data.name;
     $scope.data.phone = data.phone;
 })
-.controller('MapCtrl', function($scope, $ionicModal) {
+.controller('MapCtrl', function($scope, $ionicModal, contactService) {
 
     $scope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( map, 'resize' );
            init();
+           loadUserData();
     });
+
+    function loadUserData(){
+        var currentUser = Parse.User.current();
+        var user = Parse.Object.extend("User");
+        var query = new Parse.Query(user);
+        data = contactService.getContacts();
+        query.get(currentUser.id, {
+          success: function(curUser) {
+            data.name = curUser.get("contactName");
+            data.phone = curUser.get("contactPhone");
+            data.address = curUser.get("contactPhone");
+            contactService.addContact(data);
+            curUser.save()
+            .then(
+              function() {
+                console.log('object saved');
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
 
     function init(){
         $scope.ParseAlert = Parse.Object.extend("Alerts");
