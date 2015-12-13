@@ -1,52 +1,45 @@
-<ion-view view-title="Safety First">
+<ion-view view-title="Call for Help">
   <ion-content class="padding">
+
+    <div>
+
+        <a class="item item-thumbnail-left" href="#">
+          <img src="img/fire-dept-icon.png">
+          <h2>Pittsburgh Fire Department</h2>
+          <p>(412) 434-7331</p>
+          <p class="address">1324 Forbes Ave, Pittsburgh, PA</p>
+
+              
+        </a>
+        <button class="button button-assertive full-screen"><i class="icon ion-ios-telephone left-icon"></i><strong>Report Incident</strong></button>
+       
+
+    </div>
+
+
+
+
+
     <div class="list card">
       <div class="item item-divider">Emergency Contacts</div>
       
       <ion-item>
-        <div class="left">
-            Mom
-        </div>
-        <div class="item-button-right">
-            <div class="buttons">
-              <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
-              <button class="button button-positive"><i class="icon ion-android-textsms"></i></button>
-
-            </div>    
-
+        <div class="item-thumbnail-left contact">
+            <img class="contact-image" src="img/blank-person.jpg"/>
+            <h2>Mom</h2>
+            <p>123-456-7890</p>
         </div>
 
-      </ion-item>
-
-      <ion-item>
-        <div class="left">
-            Dad
-        </div>
-        <div class="item-button-right">
-            <div class="buttons">
-              <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
-              <button class="button button-positive"><i class="icon ion-android-textsms"></i></button>
-
-            </div>    
-
-        </div>
 
       </ion-item>
       
-     <ion-item>
-        <div class="left">
-            My Roommate
-        </div>
-        <div class="item-button-right">
-            <div class="buttons">
-              <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
-              <button class="button button-positive"><i class="icon ion-android-textsms"></i></button>
+      <div class= "contact-buttons">
+        <button class="button button-positive half-screen"><i class="icon ion-ios-telephone left-icon"></i><strong>Call</strong></button>
 
-            </div>    
+        <a href="sms:1234567890 &body=Help me!"><button class="button button-positive half-screen"><i class="icon ion-android-textsms left-icon"></i><strong>Text</strong></button></a>
 
-        </div>
+      </div>
 
-      </ion-item>
 
 
     </div>
@@ -59,6 +52,16 @@
         <img src="img/hospital-contact.png">
         <h2>UPMC</h2>
         <p class="ion-ios-location-outline">&nbsp 0.1 mi</p>
+
+        <div class="item-button-right">
+          <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>
+        </div>
+      </div>
+
+      <div class="item item-avatar">
+        <img src="img/police-icon.svg">
+        <h2>Carnegie Mellon Campus Police</h2>
+        <p>Call to report suspicious activity</p>
 
         <div class="item-button-right">
           <button class="button button-positive"><i class="icon ion-ios-telephone"></i></button>

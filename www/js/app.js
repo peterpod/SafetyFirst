@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
+angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB'])
 
-.run(function($ionicPlatform, ngFB) {
+.run(function($ionicPlatform, $http, ngFB) {
   ngFB.init({appId: '841208139331064'});
   $ionicPlatform.ready(function() {
      Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n");
@@ -22,9 +22,69 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+    /* This will send pushes using Ionic Push 
+       I will keep this code just incase we need to fallback
+       
+    var push = new Ionic.Push({
+      "debug": true,
+      "onNotification": function(notification) {
+        var payload = notification.payload;
+        console.log(notification, payload);
+      },
+      "onRegister": function(data) {
+        console.log(data.token);
+      }
+    });
+
+
+    // register device for push
+    push.register(function(token) {
+      window.token = token;
+      console.log("Device token:",token.token);
+      pushCallback();
+    });
+
+    
+    function pushCallback(){
+      var privateKey = '4933d7aa4587868fe4be8b53341eb1a42e75d60adcdd7fd8';
+      var tokens = [window.token];
+      console.log(tokens);
+      var appId = 'a4067d1c';
+
+      // Encode your key
+      var auth = btoa(privateKey + ':');
+
+      // Build the request object
+      var req = {
+        method: 'POST',
+        url: 'https://push.ionic.io/api/v1/push',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Ionic-Application-Id': appId,
+          'Authorization': 'basic ' + auth
+        },
+        data: {
+          "tokens": tokens,
+          "notification": {
+            "alert":"Hello World!"
+          }
+        }
+      };
+
+      // Make the API call
+      $http(req).success(function(resp){
+        // Handle success
+        console.log("Ionic Push: Push success!");
+      }).error(function(error){
+        // Handle error 
+        console.log(error);
+      });
+    }
+    */
+
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -74,6 +134,16 @@ angular.module('app', ['ionic', 'app.controllers','ngOpenFB'])
         }
       }
     })
+  .state('tab.details', {
+      url: '/details',
+      views:{
+        'tab-list': {
+          templateUrl: 'templates/alertDetails.html',
+          controller: 'ListCtrl'
+        }
+      }
+    })
+
     .state('tab.settings', {
       url: '/settings',
       views: {

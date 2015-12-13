@@ -22,7 +22,7 @@ angular.module('app.controllers', ['ngOpenFB'])
       user.signUp(null, {
         success: function(user) {
           // Hooray! Let them use the app now.
-          alert("Success! You have now signed up.");
+          console.log("Success! You have now signed up.");
           $state.go('tab.map');
         },
         error: function(user, error) {
@@ -37,8 +37,7 @@ angular.module('app.controllers', ['ngOpenFB'])
       Parse.User.logIn($scope.data.username, $scope.data.password, {
         success: function(user) {
           // Do stuff after successful login.
-          console.log(user);
-          alert("Success! You have now logged in.");
+          console.log("Success! You have now logged in.");
           $state.go('tab.map');
         },
         error: function(user, error) {
@@ -68,6 +67,7 @@ angular.module('app.controllers', ['ngOpenFB'])
   };
 
 
+<<<<<<< HEAD
 }).controller('ProfileCtrl', function ($scope, ngFB) {
     $scope.data = {};
 
@@ -96,6 +96,10 @@ angular.module('app.controllers', ['ngOpenFB'])
     });
 
     /* Commented out Facebook authentication */
+=======
+}).controller('ProfileCtrl', function ($scope, $http, ngFB) {
+    // Define relevant info
+>>>>>>> master
     // ngFB.api({
     //     path: '/me',
     //     params: {fields: 'id,name'}
@@ -106,6 +110,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     //     function (error) {
     //         alert('Facebook error: ' + error.error_description);
     //     });
+<<<<<<< HEAD
 
     $scope.saveSettings = function(){
         console.log("calling save");
@@ -133,6 +138,8 @@ angular.module('app.controllers', ['ngOpenFB'])
           }
         });
     };
+=======
+>>>>>>> master
 })
 .controller('MapCtrl', function($scope, $ionicModal) {
 
@@ -142,7 +149,6 @@ angular.module('app.controllers', ['ngOpenFB'])
     });
 
     function init(){
-        console.log("here is our map");
         $scope.ParseAlert = Parse.Object.extend("Alerts");
         $scope.parseQuery = new Parse.Query($scope.ParseAlert);
      
@@ -204,9 +210,6 @@ angular.module('app.controllers', ['ngOpenFB'])
                     infowindow.open(map, alertMarker);
                 }
             })(alertMarker));
-        console.log(alertMarker);
-        console.log(title);
-        console.log(lat, lon);
     }
 
     function alertControl(alertDiv, map){
@@ -236,7 +239,6 @@ angular.module('app.controllers', ['ngOpenFB'])
             {text: "High", value: "high"}
         ];
         $scope.createAlert = function(info){
-            console.log(info);
             parseAlert.set("severity", $scope.alert.sev);
             parseAlert.set("title", info.title);
             parseAlert.set("description", info.description);
@@ -245,7 +247,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             parseAlert.save(null, {
                 success: function(parseAlert){
                     $scope.closeModal();
-                    alert('Alert has been created ' + parseAlert.id);
+                    console.log('Alert has been created ' + parseAlert.id);
                 },
                 error: function(parseAlert, error){
                     $scope.closeModal();
@@ -294,7 +296,6 @@ angular.module('app.controllers', ['ngOpenFB'])
         myPos[0] = pos.coords.latitude;
         myPos[1] = pos.coords.longitude;
     });
-    console.log(myPos);
 
     function getDistance(lat1, lon1, lat2, lon2) {
         var radlat1 = Math.PI * lat1/180
@@ -385,19 +386,17 @@ angular.module('app.controllers', ['ngOpenFB'])
             for (var i=0; i<results.length; i++){
                 var alert = results[i];
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
-                console.log("alert loc" + [alert.get("location")[0], alert.get("location")[1]]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
                 $scope.timeDifference;
                 var timeElapsed = getTimeElapsed(alert.get("createdAt"));
                 // var distance = google.maps.geometry.spherical.computeDistanceBetween(myLatLng, alertLatLng)
                 $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
-                console.log($scope.alerts);
             }
         }, error: function(error){
             console.log(error.message);
         }
     });
-}).controller('AlertCtrl', function($scope) {
+}).controller('AlertCtrl', function($scope, $state) {
     var ParseAlert = Parse.Object.extend("Alerts");
     var parseAlert = new ParseAlert();
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
@@ -416,7 +415,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     });
 
     $scope.alert = {
-        sev: "high"
+        sev: "low"
     };
     $scope.changeSeverity = function(sev){
         $scope.alert.sev = sev;
@@ -427,20 +426,34 @@ angular.module('app.controllers', ['ngOpenFB'])
         {text: "High", value: "high"}
     ];
     $scope.createAlert = function(info){
-        console.log(info);
-        parseAlert.set("severity", $scope.alert.sev);
-        parseAlert.set("title", info.title);
-        parseAlert.set("description", info.description);
-        parseAlert.set("location", [map.latitude, map.longitude])
-        parseAlert.set("active", true);
-        parseAlert.save(null, {
-            success: function(parseAlert){
-                alert('Alert has been created ' + parseAlert.id);
-            },
-            error: function(parseAlert, error){
-                alert('Failed to create alert ' + error.message);
+        console.log('calling create alert' + info);
+        if(info !== undefined){
+            if(info.description !== undefined && info.title !== undefined ){
+                console.log(info);
+                parseAlert.set("severity", $scope.alert.sev);
+                parseAlert.set("title", info.title);
+                parseAlert.set("description", info.description);
+                parseAlert.set("location", [map.latitude, map.longitude])
+                parseAlert.set("active", true);
+                parseAlert.save(null, {
+                    success: function(parseAlert){
+                        console.log('Alert has been created ' + parseAlert.id);
+                        $state.go('tab.map');
+                    },
+                    error: function(parseAlert, error){
+                        console.log('Failed to create alert ' + error.message);
+                    }
+                });
             }
-        });
+            else{
+                alert('Please fill in the entire form');
+            }
+        }
+        else{
+            alert('Please fill in the entire form');
+        }
         info = {};
     };
 });
+
+
