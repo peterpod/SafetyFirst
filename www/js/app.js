@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'app.services' is found in services.js
 // 'app.controllers' is found in controllers.js
-angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB'])
+angular.module('app', ['ionic','ionic.service.core', 'app.controllers','app.services', 'ngOpenFB'])
 
 .run(function($ionicPlatform, $http, ngFB) {
   ngFB.init({appId: '841208139331064'});
@@ -121,7 +121,8 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','ngOpenFB
       url: '/help',
       views: {
         'tab-help': {
-          templateUrl: 'templates/tab-help.html'
+          templateUrl: 'templates/tab-help.html',
+          controller: 'HelpCtrl'
         }
       }
   })

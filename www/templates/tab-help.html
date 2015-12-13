@@ -26,17 +26,18 @@
       <ion-item>
         <div class="item-thumbnail-left contact">
             <img class="contact-image" src="img/blank-person.jpg"/>
-            <h2>Mom</h2>
-            <p>123-456-7890</p>
+            <h2>{{data.name}}</h2>
+            <p>{{data.phone}}</p>
         </div>
 
 
       </ion-item>
       
       <div class= "contact-buttons">
-        <button class="button button-positive half-screen"><i class="icon ion-ios-telephone left-icon"></i><strong>Call</strong></button>
+        <a ng-href="tel: {{data.phone}}">
+        <button class="button button-positive half-screen"><i class="icon ion-ios-telephone left-icon"></i><strong>Call</strong></button></a>
 
-        <a href="sms:1234567890 &body=Help me!"><button class="button button-positive half-screen"><i class="icon ion-android-textsms left-icon"></i><strong>Text</strong></button></a>
+        <a href="sms:{{data.phone}} &body=Help me!"><button class="button button-positive half-screen"><i class="icon ion-android-textsms left-icon"></i><strong>Text</strong></button></a>
 
       </div>
 

@@ -66,21 +66,32 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
   };
 
-
-<<<<<<< HEAD
-}).controller('ProfileCtrl', function ($scope, ngFB) {
+}).controller('ProfileCtrl', function ($scope, contactService) {
     $scope.data = {};
+    data = contactService.getContacts();
 
     /* Pull existing settings for current User */
     var currentUser = Parse.User.current();
     var user = Parse.Object.extend("User");
     var query = new Parse.Query(user);
+    // console.log(currentUser);
     query.get(currentUser.id, {
       success: function(curUser) {
-        console.log("object retreived ");
-        $scope.data.name = curUser.get("contactName");
-        $scope.data.phone = curUser.get("contactPhone");
-        $scope.data.address = curUser.get("Address");
+        console.log("object retreived " + JSON.stringify(curUser));
+        if(curUser.get("contactName") !== undefined){
+            // console.log('its not undefined');
+            $scope.data.name = curUser.get("contactName");
+            data.name = curUser.get("contactName");
+        }
+        if(curUser.get("contactPhone") !== undefined){
+            $scope.data.phone = curUser.get("contactPhone");
+            data.phone = curUser.get("contactPhone");
+        }
+        if(curUser.get("Address") !== undefined){
+            $scope.data.address = curUser.get("Address");
+            data.address = curUser.get("contactPhone");
+        }
+        contactService.addContact(data);
         curUser.save()
         .then(
           function() {
@@ -95,32 +106,10 @@ angular.module('app.controllers', ['ngOpenFB'])
       }
     });
 
-    /* Commented out Facebook authentication */
-=======
-}).controller('ProfileCtrl', function ($scope, $http, ngFB) {
-    // Define relevant info
->>>>>>> master
-    // ngFB.api({
-    //     path: '/me',
-    //     params: {fields: 'id,name'}
-    // }).then(
-    //     function (user) {
-    //         $scope.user = user;
-    //     },
-    //     function (error) {
-    //         alert('Facebook error: ' + error.error_description);
-    //     });
-<<<<<<< HEAD
-
+    /* save new settings */
     $scope.saveSettings = function(){
-        console.log("calling save");
-        var currentUser = Parse.User.current();
-
-        var user = Parse.Object.extend("User");
-        var query = new Parse.Query(user);
         query.get(currentUser.id, {
           success: function(curUser) {
-            console.log("object retreived ");
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
             curUser.set("Address", $scope.data.address);
@@ -136,10 +125,17 @@ angular.module('app.controllers', ['ngOpenFB'])
           error: function(error) {
             console.log("Error: " + error.code + " " + error.message);
           }
-        });
-    };
-=======
->>>>>>> master
+        });    
+    }
+})
+.controller('HelpCtrl', function ($scope, contactService) {
+    console.log('help ctrl');
+    $scope.data = {};
+    data = contactService.getContacts();
+    console.log(JSON.stringify(data));
+
+    $scope.data.name = data.name;
+    $scope.data.phone = data.phone;
 })
 .controller('MapCtrl', function($scope, $ionicModal) {
 
