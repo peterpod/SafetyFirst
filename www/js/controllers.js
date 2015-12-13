@@ -366,29 +366,33 @@ angular.module('app.controllers', ['ngOpenFB'])
     ];
     $scope.createAlert = function(info){
         console.log('calling create alert' + info);
-        console.lo
-        if(info.description === undefined || info.title === undefined ){
-            alert('Please fill in the entire form!');
+        if(info !== undefined){
+            if(info.description !== undefined && info.title !== undefined ){
+                console.log(info);
+                parseAlert.set("severity", $scope.alert.sev);
+                parseAlert.set("title", info.title);
+                parseAlert.set("description", info.description);
+                parseAlert.set("location", [map.latitude, map.longitude])
+                parseAlert.set("active", true);
+                parseAlert.save(null, {
+                    success: function(parseAlert){
+                        console.log('Alert has been created ' + parseAlert.id);
+                        $state.go('tab.map');
+                    },
+                    error: function(parseAlert, error){
+                        console.log('Failed to create alert ' + error.message);
+                    }
+                });
+            }
+            else{
+                alert('Please fill in the entire form');
+            }
         }
         else{
-            console.log(info);
-            parseAlert.set("severity", $scope.alert.sev);
-            parseAlert.set("title", info.title);
-            parseAlert.set("description", info.description);
-            parseAlert.set("location", [map.latitude, map.longitude])
-            parseAlert.set("active", true);
-            parseAlert.save(null, {
-                success: function(parseAlert){
-                    console.log('Alert has been created ' + parseAlert.id);
-                    $state.go('tab.map');
-                },
-                error: function(parseAlert, error){
-                    console.log('Failed to create alert ' + error.message);
-                }
-            });
+            alert('Please fill in the entire form');
         }
+        info = {};
     };
-    info = {};
 });
 
 
