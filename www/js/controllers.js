@@ -210,12 +210,21 @@ angular.module('app.controllers', ['ngOpenFB'])
             icon: icon
         });
         var infowindow = new google.maps.InfoWindow();
-            google.maps.event.addListener(alertMarker, 'click', (function(alertMarker) {
-                return function() {
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, alertMarker);
-                }
-            })(alertMarker));
+            google.maps.event.addListener(alertMarker, 'click', function() {
+            if(!alertMarker.open){
+                infowindow.setContent(contentString);
+                infowindow.open(map,alertMarker);
+                alertMarker.open = true;
+            }
+            else{
+                infowindow.close();
+                alertMarker.open = false;
+            }
+            google.maps.event.addListener(map, 'click', function() {
+                infowindow.close();
+                alertMarker.open = false;
+            });
+        });
     }
 
     function alertControl(alertDiv, map){
