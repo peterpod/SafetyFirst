@@ -113,6 +113,10 @@ angular.module('app.controllers', ['ngOpenFB'])
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
             curUser.set("Address", $scope.data.address);
+            data.name = curUser.get("contactName");
+            data.phone = curUser.get("contactPhone");
+            data.address = curUser.get("contactPhone");
+            contactService.addContact(data);
             curUser.save()
             .then(
               function() {
