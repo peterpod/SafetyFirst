@@ -6,6 +6,7 @@
 
 p, h2{
   font-family: 'Open Sans', sans-serif;
+  font-size: 26px;
 }
 
 button{
@@ -56,14 +57,13 @@ button{
 }
 /*Displays details side-by-side*/
 .alertListDetails p{
-	
 	float:left;
 
 }
 
 /*Padding between the location information and time since posted for alerts in the list*/
 .addSpace{
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 
