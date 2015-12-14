@@ -2,9 +2,9 @@
 angular.module('app.controllers', ['ngOpenFB'])
 .controller('LoginCtrl', function ($scope, $state) {
   //redirect user to map if they have logged in
-  if(window.localStorage.getItem("login") == true){
-    $state.go('tab.map');
-  }
+  // if(window.localStorage.getItem("login") == true){
+  //   $state.go('tab.map');
+  // }
 
   // Form data for the login modal
   $scope.data = {};
