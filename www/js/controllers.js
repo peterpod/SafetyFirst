@@ -34,7 +34,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     };
  
   $scope.loginEmail = function(){
-      Parse.User.logIn($scope.data.username, $scope.data.password, {
+      Parse.User.logIn($scope.data.username.toLowerCase(), $scope.data.password, {
         success: function(user) {
           // Do stuff after successful login.
           console.log("Success! You have now logged in.");
