@@ -1,6 +1,11 @@
 // add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
-.controller('LoginCtrl', function ($scope, $state, ngFB) {
+.controller('LoginCtrl', function ($scope, $state) {
+  //redirect user to map if they have logged in
+  if(window.localStorage.getItem("login") == true){
+    $state.go('tab.map');
+  }
+
   // Form data for the login modal
   $scope.data = {};
     
@@ -39,6 +44,7 @@ angular.module('app.controllers', ['ngOpenFB'])
           // Do stuff after successful login.
           console.log("Success! You have now logged in.");
           $state.go('tab.map');
+          window.localStorage.setItem("login",true);
         },
         error: function(user, error) {
           // The login failed. Check error to see why.
@@ -48,23 +54,23 @@ angular.module('app.controllers', ['ngOpenFB'])
     };
 
 
-  $scope.fbLogin = function () {
-    ngFB.login({scope: 'email'}).then(
-        function (response) {
-            if (response.status === 'connected') {
-                console.log('Facebook login succeeded');
-                $state.go('tab.map');
-            } else {
-                alert('Facebook login failed');
-            }
-        });
-  };
+  // $scope.fbLogin = function () {
+  //   ngFB.login({scope: 'email'}).then(
+  //       function (response) {
+  //           if (response.status === 'connected') {
+  //               console.log('Facebook login succeeded');
+  //               $state.go('tab.map');
+  //           } else {
+  //               alert('Facebook login failed');
+  //           }
+  //       });
+  // };
 
-  $scope.fbLogout = function () {
-    openFB.logout().then(function(){
-            $rootScope.$broadcast('logged-out');
-        });
-  };
+  // $scope.fbLogout = function () {
+  //   openFB.logout().then(function(){
+  //           $rootScope.$broadcast('logged-out');
+  //       });
+  // };
 
 }).controller('ProfileCtrl', function ($scope, contactService) {
     $scope.data = {};
@@ -74,7 +80,6 @@ angular.module('app.controllers', ['ngOpenFB'])
     var currentUser = Parse.User.current();
     var user = Parse.Object.extend("User");
     var query = new Parse.Query(user);
-    // console.log(currentUser);
     query.get(currentUser.id, {
       success: function(curUser) {
         console.log("object retreived " + JSON.stringify(curUser));
@@ -91,6 +96,8 @@ angular.module('app.controllers', ['ngOpenFB'])
             $scope.data.address = curUser.get("Address");
             data.address = curUser.get("contactPhone");
         }
+        $scope.data.username = curUser.get("username");
+        console.log($scope.data.username);
         contactService.addContact(data);
         curUser.save()
         .then(

@@ -86,6 +86,8 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','app.serv
   });
 })
 .config(function($stateProvider, $urlRouterProvider) {
+  // define window variables
+  window.localStorage.setItem('login', false);
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router

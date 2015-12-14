@@ -16,4 +16,21 @@ angular.module('app.services', [])
     getContacts: getContacts
   };
 
+})
+.service('loginService', function() {
+  var loggedIn = false;
+
+  var login = function() {
+      loggedIn = true;
+  };
+
+  var getLoginStats = function(){
+      return loggedIn;
+  };
+
+  return {
+    login: login,
+    getLoginStats: getLoginStats
+  };
+
 });
