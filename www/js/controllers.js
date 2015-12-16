@@ -377,6 +377,9 @@ angular.module('app.controllers', ['ngOpenFB'])
     var alerts = Parse.Object.extend("Alerts");
     var query = new Parse.Query(alerts);
 
+    $scope.endorseDisabled = false;
+    $scope.fraudDisabled = false;
+
     // get current alert
     alert = alertService.getAlert();
     $scope.endorse = function(){
@@ -384,12 +387,14 @@ angular.module('app.controllers', ['ngOpenFB'])
           success: function(curAlert) {
             curAlert.set("endorseCount", curAlert.get("endorseCount") + 1);
             alertService.addAlert(curAlert);
+            $scope.endorseDisabled = true;
+            $scope.$apply();
             curAlert.save()
             .then(
               function() {
                 console.log('alert endorsed');
                 // disable button on front end
-                document.getElementsByClassName('button button-balanced')[0].className += ' disabled';
+                // document.getElementsByClassName('button button-balanced')[0].className += ' disabled';
               }, 
               function(error) {
                 console.log(error);
@@ -406,6 +411,7 @@ angular.module('app.controllers', ['ngOpenFB'])
           success: function(curAlert) {
             curAlert.set("fraudCount", curAlert.get("fraudCount") + 1);
             alertService.addAlert(curAlert);
+            $scope.fraudDisabled = true;
             curAlert.save()
             .then(
               function() {
