@@ -1,6 +1,11 @@
 // add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
-.controller('LoginCtrl', function ($scope, $state, ngFB) {
+.controller('LoginCtrl', function ($scope, $state) {
+  //redirect user to map if they have logged in
+  // if(window.localStorage.getItem("login") == true){
+  //   $state.go('tab.map');
+  // }
+
   // Form data for the login modal
   $scope.data = {};
     
@@ -34,11 +39,12 @@ angular.module('app.controllers', ['ngOpenFB'])
     };
  
   $scope.loginEmail = function(){
-      Parse.User.logIn($scope.data.username, $scope.data.password, {
+      Parse.User.logIn($scope.data.username.toLowerCase(), $scope.data.password, {
         success: function(user) {
           // Do stuff after successful login.
           console.log("Success! You have now logged in.");
           $state.go('tab.map');
+          window.localStorage.setItem("login",true);
         },
         error: function(user, error) {
           // The login failed. Check error to see why.
@@ -48,44 +54,133 @@ angular.module('app.controllers', ['ngOpenFB'])
     };
 
 
-  $scope.fbLogin = function () {
-    ngFB.login({scope: 'email'}).then(
-        function (response) {
-            if (response.status === 'connected') {
-                console.log('Facebook login succeeded');
-                $state.go('tab.map');
-            } else {
-                alert('Facebook login failed');
-            }
-        });
-  };
+  // $scope.fbLogin = function () {
+  //   ngFB.login({scope: 'email'}).then(
+  //       function (response) {
+  //           if (response.status === 'connected') {
+  //               console.log('Facebook login succeeded');
+  //               $state.go('tab.map');
+  //           } else {
+  //               alert('Facebook login failed');
+  //           }
+  //       });
+  // };
 
-  $scope.fbLogout = function () {
-    openFB.logout().then(function(){
-            $rootScope.$broadcast('logged-out');
-        });
-  };
+  // $scope.fbLogout = function () {
+  //   openFB.logout().then(function(){
+  //           $rootScope.$broadcast('logged-out');
+  //       });
+  // };
 
+}).controller('ProfileCtrl', function ($scope, contactService) {
+    $scope.data = {};
+    data = contactService.getContacts();
 
-}).controller('ProfileCtrl', function ($scope, $http, ngFB) {
-    // Define relevant info
-    // ngFB.api({
-    //     path: '/me',
-    //     params: {fields: 'id,name'}
-    // }).then(
-    //     function (user) {
-    //         $scope.user = user;
-    //     },
-    //     function (error) {
-    //         alert('Facebook error: ' + error.error_description);
-    //     });
+    /* Pull existing settings for current User */
+    var currentUser = Parse.User.current();
+    var user = Parse.Object.extend("User");
+    var query = new Parse.Query(user);
+    query.get(currentUser.id, {
+      success: function(curUser) {
+        console.log("object retreived " + JSON.stringify(curUser));
+        if(curUser.get("contactName") !== undefined){
+            // console.log('its not undefined');
+            $scope.data.name = curUser.get("contactName");
+            data.name = curUser.get("contactName");
+        }
+        if(curUser.get("contactPhone") !== undefined){
+            $scope.data.phone = curUser.get("contactPhone");
+            data.phone = curUser.get("contactPhone");
+        }
+        if(curUser.get("Address") !== undefined){
+            $scope.data.address = curUser.get("Address");
+            data.address = curUser.get("contactPhone");
+        }
+        $scope.data.username = curUser.get("username");
+        console.log($scope.data.username);
+        contactService.addContact(data);
+        curUser.save()
+        .then(
+          function() {
+            console.log('object saved');
+          }, 
+          function(error) {
+            console.log(error);
+          });
+      },
+      error: function(error) {
+        console.log("Error: " + error.code + " " + error.message);
+      }
+    });
+
+    /* save new settings */
+    $scope.saveSettings = function(){
+        query.get(currentUser.id, {
+          success: function(curUser) {
+            curUser.set("contactName", $scope.data.name);
+            curUser.set("contactPhone", $scope.data.phone);
+            curUser.set("Address", $scope.data.address);
+            data.name = curUser.get("contactName");
+            data.phone = curUser.get("contactPhone");
+            data.address = curUser.get("contactPhone");
+            contactService.addContact(data);
+            curUser.save()
+            .then(
+              function() {
+                console.log('object saved');
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+          }
+        });    
+    }
 })
-.controller('MapCtrl', function($scope, $ionicModal) {
+.controller('HelpCtrl', function ($scope, contactService) {
+    console.log('help ctrl');
+    $scope.data = {};
+    data = contactService.getContacts();
+    console.log(JSON.stringify(data));
+
+    $scope.data.name = data.name;
+    $scope.data.phone = data.phone;
+})
+.controller('MapCtrl', function($scope, $ionicModal, contactService) {
 
     $scope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( map, 'resize' );
            init();
+           loadUserData();
     });
+
+    function loadUserData(){
+        var currentUser = Parse.User.current();
+        var user = Parse.Object.extend("User");
+        var query = new Parse.Query(user);
+        data = contactService.getContacts();
+        query.get(currentUser.id, {
+          success: function(curUser) {
+            data.name = curUser.get("contactName");
+            data.phone = curUser.get("contactPhone");
+            data.address = curUser.get("contactPhone");
+            contactService.addContact(data);
+            curUser.save()
+            .then(
+              function() {
+                console.log('object saved');
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+          }
+        });
+    }
 
     function init(){
         $scope.ParseAlert = Parse.Object.extend("Alerts");

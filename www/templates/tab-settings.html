@@ -6,8 +6,8 @@
           <!-- <img src="http://graph.facebook.com/{{user.id}}/picture?width=270&height=270"/> -->
           <img src="img/blank-person.jpg">
          
-          <h2>{{user.name}}</h2>
-          <button class="button button-positive">Save</button>
+          <h2>{{data.username}}</h2>
+          <button class="button button-positive" ng-click="saveSettings()">Save</button>
           <button class="button button-stable">Logout</button>
 
 
@@ -19,9 +19,9 @@
          
         </div>
 
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Address</span>
-          <input type="text" placeholder="e.g. 5000 Forbes Ave, Pittsburgh, PA 15232">
+        <label class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="text" placeholder="Search address" ng-model="data.address">
         </label>
 
 
@@ -32,11 +32,11 @@
 
         <label class="item item-input item-floating-label">
           <span class="input-label">Name</span>
-          <input type="text" placeholder="First Name">
+          <input type="text" placeholder="First Name" ng-model="data.name">
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Phone</span>
-          <input type="text" placeholder="Email">
+          <input type="text" placeholder="Phone Number" ng-model="data.phone">
         </label>
 
 
@@ -113,6 +113,5 @@
 
       </div>
 
-        
     </ion-content>
 </ion-view>

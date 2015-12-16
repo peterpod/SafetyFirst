@@ -6,10 +6,6 @@ ion-slide:nth-child(2n) {
     background-color: #fff;
 }
 
-.slider {
-    height: 100%;
-}
-
 .slidingTabs {
     height: 48px;
     z-index: 10;
