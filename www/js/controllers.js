@@ -213,7 +213,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 success:function(results){
                     for (var i=0; i<results.length; i++){
                         var alert = results[i];
-                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity")); 
+                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount")); 
                     }
                 }, error: function(error){
                     console.log(error.message);
@@ -222,7 +222,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     };
 
-    function setMarker(map, lat, lon, title, content, severity){
+    function setMarker(map, lat, lon, title, content, severity, endorseCount, fraudCount){
         var icon = "img/highAlert.png";
         if (severity=="Low"){
             var icon = "img/lowAlert.png";
@@ -230,7 +230,9 @@ angular.module('app.controllers', ['ngOpenFB'])
             var icon = "img/mediumAlert.png";
         };
         var contentString = '<div id="alertTitle">'+ title+'</div>'+'<br/>'+'<div id="alertDescr">' 
-            + content + '</div>';
+            + content +'<br><div style="margin-top:7px;"><i class="icons ion-thumbsup"> </i> ' 
+            + endorseCount + '&nbsp;&nbsp;&nbsp;<i class="icons ion-thumbsdown"> </i> '
+            + fraudCount + '</div></div>';
         var alertMarker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lon),
             map: map,
@@ -276,7 +278,9 @@ angular.module('app.controllers', ['ngOpenFB'])
             parseAlert.set("severity", $scope.alert.sev);
             parseAlert.set("title", info.title);
             parseAlert.set("description", info.description);
-            parseAlert.set("location", [map.latitude, map.longitude])
+            parseAlert.set("location", [map.latitude, map.longitude]);
+            parseAlert.set("endorseCount", 0);
+            parseAlert.set("fraudCount", 0);
             parseAlert.set("active", true);
             parseAlert.save(null, {
                 success: function(parseAlert){
@@ -467,7 +471,9 @@ angular.module('app.controllers', ['ngOpenFB'])
                 parseAlert.set("severity", $scope.alert.sev);
                 parseAlert.set("title", info.title);
                 parseAlert.set("description", info.description);
-                parseAlert.set("location", [map.latitude, map.longitude])
+                parseAlert.set("location", [map.latitude, map.longitude]);
+                parseAlert.set("endorseCount", 0);
+                parseAlert.set("fraudCount", 0);
                 parseAlert.set("active", true);
                 parseAlert.save(null, {
                     success: function(parseAlert){
