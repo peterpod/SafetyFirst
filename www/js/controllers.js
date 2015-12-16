@@ -347,7 +347,6 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
                 $scope.timeDifference;
                 var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
-                // var distance = google.maps.geometry.spherical.computeDistanceBetween(myLatLng, alertLatLng)
                 $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
             }
         }, error: function(error){
@@ -412,7 +411,7 @@ angular.module('app.controllers', ['ngOpenFB'])
               function() {
                 console.log('alert reported');
                 // disable button on front end
-                document.getElementsByClassName('button button-assertive')[0].className += ' disabled';
+                document.getElementsByClassName('button button-assertive fraud')[0].className += ' disabled';
               }, 
               function(error) {
                 console.log(error);
