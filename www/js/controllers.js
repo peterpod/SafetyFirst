@@ -434,8 +434,6 @@ angular.module('app.controllers', ['ngOpenFB'])
     var alerts = Parse.Object.extend("Alerts");
     var query = new Parse.Query(alerts);
 
-    $scope.endorseDisabled = false;
-
     // get current alert
     alert = alertService.getAlert();
     $scope.endorse = function(){
@@ -460,7 +458,24 @@ angular.module('app.controllers', ['ngOpenFB'])
     }
 
     $scope.report = function(){
-
+        query.get(alert.id, {
+          success: function(curAlert) {
+            curAlert.set("fraudCount", curAlert.get("fraudCount") + 1);
+            alertService.addAlert(curAlert);
+            curAlert.save()
+            .then(
+              function() {
+                console.log('alert reported');
+                document.getElementsByClassName('button button-assertive')[0].className += ' disabled';
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+          }
+        });  
     }
 })
 .controller('AlertCtrl', function($scope, $state) {
