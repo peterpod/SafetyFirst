@@ -14,7 +14,7 @@ button{
 }
 
 .icons{
-  font-size:20px;
+  font-size:24px;
 }
 
 .scroll {
@@ -50,6 +50,17 @@ button{
   margin-left: 10px;
 }
 
+.item h2 {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 2px;
+    font-weight:600; 
+    margin:10px 0px 10px 0px;
+}
+
+#alertTitle{
+  font-weight:500;
+}
 #alertText {
   color: rgb(25,25,25);
   font-family: Roboto,Arial,sans-serif;

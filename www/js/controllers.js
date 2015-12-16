@@ -116,7 +116,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.data.name = data.name;
     $scope.data.phone = data.phone;
 })
-.controller('MapCtrl', function($scope, $ionicModal, contactService) {
+.controller('MapCtrl', function($scope, $ionicModal, contactService, timeService) {
 
     $scope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( map, 'resize' );
@@ -181,7 +181,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 success:function(results){
                     for (var i=0; i<results.length; i++){
                         var alert = results[i];
-                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount")); 
+                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount"), alert.get("createdAt")); 
                     }
                 }, error: function(error){
                     console.log(error.message);
@@ -190,15 +190,17 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     };
 
-    function setMarker(map, lat, lon, title, content, severity, endorseCount, fraudCount){
+    function setMarker(map, lat, lon, title, content, severity, endorseCount, fraudCount, createdAt){
         var icon = "img/highAlert.png";
         if (severity=="Low"){
             var icon = "img/lowAlert.png";
         }else if (severity=="Medium"){
             var icon = "img/mediumAlert.png";
         };
+        var time = timeService.getTimeElapsed(createdAt)
         var contentString = '<div id="alertTitle">'+ title+'</div>'+'<br/>'+'<div id="alertDescr">' 
-            + content +'<br><div style="margin-top:7px;"><i class="icons ion-thumbsup"> </i> ' 
+            + content +'<br><div style="margin-top:7px; font-weight:500;">' 
+            + time + ' ago</div><div style="margin-top:7px;"><i class="icons ion-thumbsup"> </i> ' 
             + endorseCount + '&nbsp;&nbsp;&nbsp;<i class="icons ion-thumbsdown"> </i> '
             + fraudCount + '</div></div>';
         var alertMarker = new google.maps.Marker({
@@ -292,7 +294,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     }
     $scope.map = map;
-}).controller('ListCtrl', function($scope, $state, alertService) {
+}).controller('ListCtrl', function($scope, $state, alertService, timeService) {
     Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
     $scope.alerts = [];
     $scope.ParseAlert = Parse.Object.extend("Alerts");
@@ -336,56 +338,6 @@ angular.module('app.controllers', ['ngOpenFB'])
         return (Math.round((num * t) + (decimals>0?1:0)*(sign(num) * (10 / Math.pow(100, decimals)))) / t).toFixed(decimals);
     }
 
-    function getTimeElapsed(createdAt){
-        var now = new Date();
-        var created_at = new Date(createdAt);
-        var timeDiff = (now-created_at)
-        $scope.timeDifference = timeDiff;
-        // strip the ms
-        timeDiff /= 1000;
-
-        // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
-        var seconds = Math.round(timeDiff % 60);
-        var timeElapsed = seconds + " Seconds";
-        // remove seconds from the date
-        timeDiff = Math.floor(timeDiff / 60);
-
-        // get minutes
-        var minutes = Math.round(timeDiff % 60);
-
-        // remove minutes from the date
-        timeDiff = Math.floor(timeDiff / 60);
-
-        // get hours
-        var hours = Math.round(timeDiff % 24);
-
-        // remove hours from the date
-        timeDiff = Math.floor(timeDiff / 24);
-
-        // the rest of timeDiff is number of days
-        var days = timeDiff ;
-
-        if (minutes!=0){
-            if (minutes ==1){
-                timeElapsed = minutes + "Minute";
-            }
-            timeElapsed = minutes + " Minutes";
-        }if(hours!=0){
-            if (hours ==1){
-                if (minutes ==1){
-                    timeElapsed = hours + "Hour" + minutes + " Minute";
-                }
-                timeElapsed = hours + "Hour" + minutes + " Minutes";
-            }
-            timeElapsed = hours + " Hours " + minutes + " Minutes";
-        }if(days!=0){
-            if (days==1){
-                timeElapsed = days + " Day";
-            }
-            timeElapsed = days + " Days";
-        }
-        return timeElapsed;
-    }
     $scope.parseQuery.find({
         success:function(results){
             // $scope.alerts = results;
@@ -394,12 +346,12 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
                 $scope.timeDifference;
-                var timeElapsed = getTimeElapsed(alert.get("createdAt"));
+                var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
                 // var distance = google.maps.geometry.spherical.computeDistanceBetween(myLatLng, alertLatLng)
                 $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
             }
         }, error: function(error){
-            console.log(error.message);
+            console.log(error);
         }
     });
 
@@ -411,13 +363,12 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
                 $scope.timeDifference;
-                var timeElapsed = getTimeElapsed(alert.get("createdAt"));
+                var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
 
                 alertService.addAlert({id: alert.id, title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
-                console.log(alertService.getAlert());
                 $state.go('tab.details');
             }, error: function(error){
-                console.log(error.message);
+                console.log(error);
             }
         });
 
