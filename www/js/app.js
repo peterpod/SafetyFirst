@@ -1,10 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'app' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'app.services' is found in services.js
-// 'app.controllers' is found in controllers.js
 angular.module('app', ['ionic','ionic.service.core', 'app.controllers','app.services', 'ngOpenFB'])
 
 .run(function($ionicPlatform, $http, ngFB) {
@@ -19,20 +12,12 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','app.serv
 
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
 
   });
 })
 .config(function($stateProvider, $urlRouterProvider) {
-  // define window variables
-  // window.localStorage.setItem('login', false);
-
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
 
   // setup an abstract state for the tabs directive

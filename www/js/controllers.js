@@ -1,4 +1,3 @@
-// add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
 .controller('LoginCtrl', function ($scope, $state) {
   // Form data for the login modal
@@ -21,13 +20,11 @@ angular.module('app.controllers', ['ngOpenFB'])
      
       user.signUp(null, {
         success: function(user) {
-          // Hooray! Let them use the app now.
           console.log("Success! You have now signed up.");
           $state.go('tab.map');
         },
         error: function(user, error) {
-          // Show the error message somewhere and let the user try again.
-          alert("Error: " + error.code + " " + error.message);
+          alert("We were unable to create your account. Please try again");
         }
       });
      
@@ -36,10 +33,8 @@ angular.module('app.controllers', ['ngOpenFB'])
   $scope.loginEmail = function(){
       Parse.User.logIn($scope.data.username.toLowerCase(), $scope.data.password, {
         success: function(user) {
-          // Do stuff after successful login.
           console.log("Success! You have now logged in.");
-          $state.go('tab.map');
-          window.localStorage.setItem("login",true);
+          $state.go('tab.map'); // route to map view
         },
         error: function(user, error) {
           // The login failed. Check error to see why.
@@ -57,9 +52,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     var query = new Parse.Query(user);
     query.get(currentUser.id, {
       success: function(curUser) {
-        console.log("object retreived " + JSON.stringify(curUser));
         if(curUser.get("contactName") !== undefined){
-            // console.log('its not undefined');
             $scope.data.name = curUser.get("contactName");
             data.name = curUser.get("contactName");
         }
@@ -72,7 +65,6 @@ angular.module('app.controllers', ['ngOpenFB'])
             data.address = curUser.get("contactPhone");
         }
         $scope.data.username = curUser.get("username");
-        console.log($scope.data.username);
         contactService.addContact(data);
         curUser.save()
         .then(
@@ -95,6 +87,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
             curUser.set("Address", $scope.data.address);
+            // save settings to contact service
             data.name = curUser.get("contactName");
             data.phone = curUser.get("contactPhone");
             data.address = curUser.get("contactPhone");
@@ -109,13 +102,13 @@ angular.module('app.controllers', ['ngOpenFB'])
               });
           },
           error: function(error) {
-            console.log("Error: " + error.code + " " + error.message);
+            console.log(error);
           }
         });    
     }
 })
 .controller('HelpCtrl', function ($scope, contactService) {
-    console.log('help ctrl');
+    // backend to display emergency contact name and phone
     $scope.data = {};
     data = contactService.getContacts();
     console.log(JSON.stringify(data));
@@ -445,6 +438,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             .then(
               function() {
                 console.log('alert endorsed');
+                // disable button on front end
                 document.getElementsByClassName('button button-balanced')[0].className += ' disabled';
               }, 
               function(error) {
@@ -452,7 +446,7 @@ angular.module('app.controllers', ['ngOpenFB'])
               });
           },
           error: function(error) {
-            console.log("Error: " + error.code + " " + error.message);
+            console.log(error);
           }
         });    
     }
@@ -466,6 +460,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             .then(
               function() {
                 console.log('alert reported');
+                // disable button on front end
                 document.getElementsByClassName('button button-assertive')[0].className += ' disabled';
               }, 
               function(error) {
@@ -473,7 +468,7 @@ angular.module('app.controllers', ['ngOpenFB'])
               });
           },
           error: function(error) {
-            console.log("Error: " + error.code + " " + error.message);
+            console.log(error);
           }
         });  
     }

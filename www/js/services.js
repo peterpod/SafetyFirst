@@ -35,6 +35,8 @@ angular.module('app.services', [])
 
 })
 .service('alertService', function() {
+  // service used to store the current alert being viewed
+  // in the alert detail page
   var curAlert = {};
 
   var addAlert= function(newObj) {
