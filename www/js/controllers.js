@@ -1,11 +1,6 @@
 // add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
 .controller('LoginCtrl', function ($scope, $state) {
-  //redirect user to map if they have logged in
-  // if(window.localStorage.getItem("login") == true){
-  //   $state.go('tab.map');
-  // }
-
   // Form data for the login modal
   $scope.data = {};
     
@@ -52,26 +47,6 @@ angular.module('app.controllers', ['ngOpenFB'])
         }
       });
     };
-
-
-  // $scope.fbLogin = function () {
-  //   ngFB.login({scope: 'email'}).then(
-  //       function (response) {
-  //           if (response.status === 'connected') {
-  //               console.log('Facebook login succeeded');
-  //               $state.go('tab.map');
-  //           } else {
-  //               alert('Facebook login failed');
-  //           }
-  //       });
-  // };
-
-  // $scope.fbLogout = function () {
-  //   openFB.logout().then(function(){
-  //           $rootScope.$broadcast('logged-out');
-  //       });
-  // };
-
 }).controller('ProfileCtrl', function ($scope, contactService) {
     $scope.data = {};
     data = contactService.getContacts();
@@ -324,7 +299,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     }
     $scope.map = map;
-}).controller('ListCtrl', function($scope) {
+}).controller('ListCtrl', function($scope, $state, alertService) {
     Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
     $scope.alerts = [];
     $scope.ParseAlert = Parse.Object.extend("Alerts");
@@ -434,7 +409,61 @@ angular.module('app.controllers', ['ngOpenFB'])
             console.log(error.message);
         }
     });
-}).controller('AlertCtrl', function($scope, $state) {
+
+    /* save current alert to alertService */
+    $scope.saveAlert = function(index){
+        $scope.parseQuery.find({
+            success:function(results){
+                var alert = results[index];
+                var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
+                var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
+                $scope.timeDifference;
+                var timeElapsed = getTimeElapsed(alert.get("createdAt"));
+
+                alertService.addAlert({id: alert.id, title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
+                console.log(alertService.getAlert());
+                $state.go('tab.details');
+            }, error: function(error){
+                console.log(error.message);
+            }
+        });
+
+    }
+
+}).controller('DetailCtrl', function ($scope, alertService) {
+    var alerts = Parse.Object.extend("Alerts");
+    var query = new Parse.Query(alerts);
+
+    $scope.endorseDisabled = false;
+
+    // get current alert
+    alert = alertService.getAlert();
+    $scope.endorse = function(){
+        query.get(alert.id, {
+          success: function(curAlert) {
+            curAlert.set("endorseCount", curAlert.get("endorseCount") + 1);
+            alertService.addAlert(curAlert);
+            curAlert.save()
+            .then(
+              function() {
+                console.log('alert endorsed');
+                document.getElementsByClassName('button button-balanced')[0].className += ' disabled';
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log("Error: " + error.code + " " + error.message);
+          }
+        });    
+    }
+
+    $scope.report = function(){
+
+    }
+})
+.controller('AlertCtrl', function($scope, $state) {
     var ParseAlert = Parse.Object.extend("Alerts");
     var parseAlert = new ParseAlert();
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);

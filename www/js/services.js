@@ -33,4 +33,21 @@ angular.module('app.services', [])
     getLoginStats: getLoginStats
   };
 
+})
+.service('alertService', function() {
+  var curAlert = {};
+
+  var addAlert= function(newObj) {
+      curAlert = newObj;
+  };
+
+  var getAlert = function(){
+      return curAlert;
+  };
+
+  return {
+    addAlert: addAlert,
+    getAlert: getAlert
+  };
+
 });

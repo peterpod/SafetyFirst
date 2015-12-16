@@ -4,7 +4,7 @@
         <ion-slide ion-slide-tab-label="Nearby">
           <div class="list">
 
-              <ion-item ng-repeat="alert in alerts  | orderBy:'timeDiff'">
+              <ion-item ng-repeat="alert in alerts  | orderBy:'timeDiff' track by $index">
                 <div class="item-icon-left">
                     <i class="icon ion-alert-circled"></i>
                     <h3>{{alert.title}}</h3>
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="item-icon-right">
-                    <a href="#/tab/details"><i class="icon ion-ios-arrow-right"></i></a>
+                    <a ng-click="saveAlert({{'$index'}})"><i class="icon ion-ios-arrow-right"></i></a>
                 </div>
 
               </ion-item>

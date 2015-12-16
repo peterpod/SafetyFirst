@@ -82,7 +82,7 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','app.serv
       views:{
         'tab-list': {
           templateUrl: 'templates/alertDetails.html',
-          controller: 'ListCtrl'
+          controller: 'DetailCtrl'
         }
       }
     })
