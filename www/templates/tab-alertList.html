@@ -7,7 +7,7 @@
               <ion-item ng-repeat="alert in alerts  | orderBy:'timeDiff' track by $index">
                 <div class="item-icon-left">
                     <i class="icon ion-alert-circled"></i>
-                    <h3>{{alert.title}}</h3>
+                    <h3>{{alert.title}}{{$index}}</h3>
                     
                     <div class = "alertListDetails">
                       <p class="ion-ios-clock-outline"> {{alert.created}}</p>

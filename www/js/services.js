@@ -87,20 +87,33 @@ angular.module('app.services', [])
             if (minutes ==1){
                 timeElapsed = minutes + "Minute";
             }
-            timeElapsed = minutes + " Minutes";
+            else{
+              timeElapsed = minutes + " Minutes";
+            }
         }if(hours!=0){
             if (hours ==1){
                 if (minutes ==1){
-                    timeElapsed = hours + "Hour" + minutes + " Minute";
+                    timeElapsed = hours + " Hour " + minutes + " Minute";
                 }
-                timeElapsed = hours + "Hour" + minutes + " Minutes";
+                else{
+                    timeElapsed = hours + " Hour " + minutes + " Minutes";
+                }
             }
-            timeElapsed = hours + " Hours " + minutes + " Minutes";
+            else{
+              if (minutes ==1){
+                    timeElapsed = hours + " Hours " + minutes + " Minute";
+                }
+                else{
+                    timeElapsed = hours + " Hours " + minutes + " Minutes";
+                }              
+            }
         }if(days!=0){
             if (days==1){
                 timeElapsed = days + " Day";
             }
+            else{
             timeElapsed = days + " Days";
+          }
         }
         return timeElapsed;
     }

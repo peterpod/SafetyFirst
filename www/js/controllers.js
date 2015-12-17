@@ -298,7 +298,8 @@ angular.module('app.controllers', ['ngOpenFB'])
     Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
     $scope.alerts = [];
     $scope.ParseAlert = Parse.Object.extend("Alerts");
-    $scope.parseQuery = new Parse.Query($scope.ParseAlert);
+    var query = new Parse.Query($scope.ParseAlert);
+    $scope.parseQuery = query.descending("createdAt");
     var myPos = [40.4428285, -79.9561175];
     navigator.geolocation.getCurrentPosition(function(pos) {
         myPos[0] = pos.coords.latitude;
@@ -361,6 +362,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.saveAlert = function(index){
         $scope.parseQuery.find({
             success:function(results){
+                console.log(results);
                 var alert = results[index];
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
@@ -385,6 +387,8 @@ angular.module('app.controllers', ['ngOpenFB'])
 
     // get current alert
     alert = alertService.getAlert();
+    $scope.alert = alert;
+    console.log($scope.alert);
     $scope.endorse = function(){
         query.get(alert.id, {
           success: function(curAlert) {

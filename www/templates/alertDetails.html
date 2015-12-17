@@ -1,14 +1,14 @@
-<ion-view view-title="ALERT TITLE">
+<ion-view view-title="{{alert.title}}">
   <ion-content class="padding">
 
     <div>
 
-        <p>Brief description goes here. It should probably be restricted to only 150 characters or less. Followed by an optional image.</p>
+        <p>{{alert.description}}</p>
 
         <div class="alert-description">
           <p>
-            <i class="ion-ios-clock"></i>&nbsp 3 hours ago &nbsp &nbsp
-            <i class="ion-alert-circled">&nbsp High Severity</i>
+            <i class="ion-ios-clock"></i>&nbsp {{alert.created}} ago &nbsp &nbsp
+            <i class="ion-alert-circled">&nbsp {{alert.severity}}</i>
 
           </p>
 
