@@ -463,7 +463,8 @@ angular.module('app.controllers', ['ngOpenFB'])
     });
 
     $scope.alert = {
-        sev: "low"
+        sev: "low",
+        alertType: "Suspicious"
     };
     $scope.changeSeverity = function(sev){
         $scope.alert.sev = sev;
@@ -472,6 +473,16 @@ angular.module('app.controllers', ['ngOpenFB'])
         {text: "Low", value: "low"},
         {text: "Medium", value: "med"},
         {text: "High", value: "high"}
+    ];
+
+    $scope.changeType = function(alertType){
+        $scope.alert.alertType = alertType;
+    }
+    $scope.typeList = [
+        {text: "Suspicious Person/Activity", value: "Suspicious"},
+        {text: "Vandalism", value: "Vandalism"},
+        {text: "Theft", value: "Theft"},
+        {text: "Assault", value: "Assault"}
     ];
     $scope.createAlert = function(info){
         console.log('calling create alert' + info);
@@ -485,6 +496,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 parseAlert.set("endorseCount", 0);
                 parseAlert.set("fraudCount", 0);
                 parseAlert.set("active", true);
+                parseAlert.set("alertType", $scope.alert.alertType);
                 parseAlert.save(null, {
                     success: function(parseAlert){
                         console.log('Alert has been created ' + parseAlert.id);

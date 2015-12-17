@@ -59,6 +59,15 @@
             <ion-radio ng-repeat="item in severityList" ng-value="item.value" ng-change="changeSeverity(item.text)" 
              ng-model="alertInfo.sev"> {{ item.text }}
             </ion-radio>
+            <label class="item item-input item-select">
+              <div class = "input-label">
+                Alert Type
+              </div>
+              <select ng-repeat="item in typeList" ng-value="item.value" ng-change="changeAlert(item.value)" ng-model="alertInfo.alertType">
+              <option>{{item.text}}</option>
+              </select>
+            </label>
+
             <label class="item item-input item-stacked-label">
               <span class="input-label">Title</span>
               <input type="text" placeholder="Suspicious person nearby" ng-model="alertInfo.title">

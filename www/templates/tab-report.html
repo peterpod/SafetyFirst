@@ -12,9 +12,21 @@
 		      Severity
 		    </div>
 		    <select ng-model="alertInfo.sev" ng-change="changeSeverity(alertInfo.sev)">
-		      <option ng-value="Low" ng-model="alertInfo.sev">Low</option>
+		      <option selected ng-value="Low" ng-model="alertInfo.sev">Low</option>
 		      <option ng-value="Medium" ng-model="alertInfo.sev">Medium</option>
-		      <option selected ng-value="High" ng-model="alertInfo.sev">High</option>
+		      <option ng-value="High" ng-model="alertInfo.sev">High</option>
+		    </select>
+		  </label>
+
+		  	<label class="item item-input item-select">
+		    <div class="input-label">
+		      Type
+		    </div>
+		    <select ng-model="alertInfo.alertType" ng-change="changeType(alertInfo.alertType)">
+		      <option selected  ng-value="Suspicious" ng-model="alertInfo.alertType">Suspicious Person/Activity</option>
+  		      <option ng-value="Vandalism" ng-model="alertInfo.alertType">Vandalism</option>
+  		      <option ng-value="Theft" ng-model="alertInfo.alertType">Theft</option>
+		      <option ng-value="Assault" ng-model="alertInfo.alertType">Assault</option>
 		    </select>
 		  </label>
 
