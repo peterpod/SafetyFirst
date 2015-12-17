@@ -198,7 +198,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             var icon = "img/mediumAlert.png";
         };
         var time = timeService.getTimeElapsed(createdAt)
-        var contentString = '<div id="alertTitle">'+ title+'</div>'+'<br/>'+'<div id="alertDescr">' 
+        var contentString = '<div id="alertTitle">'+ title+'</div><br/><div id="alertDescr">' 
             + content +'<br><div style="margin-top:7px; font-weight:500;">' 
             + time + ' ago</div><div style="margin-top:7px;"><i class="icons ion-thumbsup"> </i> ' 
             + endorseCount + '&nbsp;&nbsp;&nbsp;<i class="icons ion-thumbsdown"> </i> '
