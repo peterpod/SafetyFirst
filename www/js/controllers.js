@@ -345,7 +345,10 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var alert = results[i];
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
-                $scope.timeDifference;
+                var now = new Date();
+                var created_at = new Date(alert.get("createdAt"));
+                var timeDiff = (now-created_at);
+                $scope.timeDifference = timeDiff;
                 var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
                 $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
             }
