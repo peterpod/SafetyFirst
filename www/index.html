@@ -57,16 +57,33 @@
         <form ng-submit="createAlert(alertInfo)">
           <div class="list">
 
-            <ion-radio ng-repeat="item in typeList" ng-value="item.value" ng-change="changeType(item.text)" 
-             ng-model="alertInfo.alertType"> {{ item.text }}
-            </ion-radio>
+           <label class="item item-input" style="background-color: #eaeaea;">
+            <span class="input-label"><h3> Add a Type </h3></span>
+          </label>
 
 
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Description</span>
-              <textarea placeholder="Enter Description Here" ng-model="alertInfo.description"></textarea>
-            </label>
-          </div>
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Type
+            </div>
+
+            <select ng-model="alertInfo.alertType" ng-change="changeType(alertInfo.alertType)">
+              <option selected  ng-value="Suspicious" ng-model="alertInfo.alertType">Suspicious Person/Activity</option>
+                <option ng-value="Vandalism" ng-model="alertInfo.alertType">Vandalism</option>
+                <option ng-value="Theft" ng-model="alertInfo.alertType">Theft</option>
+              <option ng-value="Assault" ng-model="alertInfo.alertType">Assault</option>
+              <option ng-value="Other" ng-model="alertInfo.alertType">Other</option>
+            </select>
+          </label>
+
+          <label class="item item-input" style="background-color: #eaeaea;">
+            <span class="input-label"><h3> Add a Description </h3></span>
+          </label>
+
+          <label class="item item-input">
+            <textarea placeholder="Description" ng-model="alertInfo.description"></textarea>
+          </label>
+
           <button class="button button-full button-positive">
             Submit
           </button>

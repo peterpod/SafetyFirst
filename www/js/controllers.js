@@ -417,6 +417,7 @@ angular.module('app.controllers', ['ngOpenFB'])
 
     // get current alert
     alert = alertService.getAlert();
+    console.log(alert);
     $scope.alert = alert;
     $scope.endorse = function(){
         query.get(alert.id, {
