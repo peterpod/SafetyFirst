@@ -6,7 +6,7 @@
 
 p, h2{
   font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 button{
@@ -26,17 +26,17 @@ button{
     height: 100%;
 }
 @media (min-width: 370px) {
-	.alertModal{
-	     width: 85%; 
-	     height: 50%; 
-	     top: 10%; 
-	     left: 5%; 
-	     right: 5%; 
-	     bottom: 10%;
-	}
-	.modal{
-		min-height: 68%;
-	}
+  .alertModal{
+       width: 85%; 
+       height: 50%; 
+       top: 10%; 
+       left: 5%; 
+       right: 5%; 
+       bottom: 10%;
+  }
+  .modal{
+    min-height: 68%;
+  }
 }
 #alertUI {
   background-color: #fff;
@@ -52,7 +52,7 @@ button{
 
 .item h2 {
     color: #666;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 2px;
     font-weight:600; 
     margin:10px 0px 10px 0px;
@@ -71,13 +71,13 @@ button{
 }
 /*Displays details side-by-side*/
 .alertListDetails p{
-	float:left;
+  float:left;
 
 }
 
 /*Padding between the location information and time since posted for alerts in the list*/
 .addSpace{
-	padding-left: 15px;
+  padding-left: 15px;
 }
 
 
@@ -164,16 +164,16 @@ button{
 
 /********* ALERT DETAILS *********/
 .alert-descr{
-  margin-top: 1.2em;
+  margin-top: 0.5em;
   font-size: 22px;
   line-height: 150%;
 }
 
 .alert-description{
-  margin-top: 1.2em;
+  margin-top: 0.5em;
   font-size: .9em;
   color: #545454;
-  line-height: 200%;
+  line-height: 250%;
 }
 
 .crime-image{
