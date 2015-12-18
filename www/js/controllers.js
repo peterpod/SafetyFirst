@@ -192,9 +192,9 @@ angular.module('app.controllers', ['ngOpenFB'])
 
     function setMarker(map, lat, lon, title, content, severity, endorseCount, fraudCount, createdAt){
         var icon = "img/highAlert.png";
-        if (severity=="Low"){
+        if (severity=="Low"){ 
             var icon = "img/lowAlert.png";
-        }else if (severity=="Medium"){
+        }else if (severity=="Medium"){ 
             var icon = "img/mediumAlert.png";
         };
         var time = timeService.getTimeElapsed(createdAt)
@@ -210,12 +210,21 @@ angular.module('app.controllers', ['ngOpenFB'])
             icon: icon
         });
         var infowindow = new google.maps.InfoWindow();
-            google.maps.event.addListener(alertMarker, 'click', (function(alertMarker) {
-                return function() {
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, alertMarker);
-                }
-            })(alertMarker));
+            google.maps.event.addListener(alertMarker, 'click', function() {
+            if(!alertMarker.open){
+                infowindow.setContent(contentString);
+                infowindow.open(map,alertMarker);
+                alertMarker.open = true;
+            }
+            else{
+                infowindow.close();
+                alertMarker.open = false;
+            }
+            google.maps.event.addListener(map, 'click', function() {
+                infowindow.close();
+                alertMarker.open = false;
+            });
+        });
     }
 
     function alertControl(alertDiv, map){
@@ -234,7 +243,8 @@ angular.module('app.controllers', ['ngOpenFB'])
             $scope.modal.hide();
         };
         $scope.alert = {
-            sev: "high"
+            sev: "high",
+            alertType: "Suspicious"
         };
         $scope.changeSeverity = function(sev){
             $scope.alert.sev = sev;
@@ -244,13 +254,35 @@ angular.module('app.controllers', ['ngOpenFB'])
             {text: "Medium", value: "med"},
             {text: "High", value: "high"}
         ];
+         $scope.changeType = function(alertType){
+        $scope.alert.alertType = alertType;
+        }
+        $scope.typeList = [
+                {text: "Suspicious Person/Activity", value: "Suspicious"},
+                {text: "Vandalism", value: "Vandalism"},
+                {text: "Theft", value: "Theft"},
+                {text: "Assault", value: "Assault"},
+                {text: "Missing Person", value: "Missing"},
+                {text: "Trespasser", value: "Trespasser"},
+                {text: "Other", value: "Other"}
+        ];
         $scope.createAlert = function(info){
-            parseAlert.set("severity", $scope.alert.sev);
-            parseAlert.set("title", info.title);
+            var severity;
+            if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault" || $scope.alert.alertType == "Missing Person"){
+                severity = "High";
+            }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Vandalism"){
+                severity = "Medium";
+            }else{
+                severity = "Low";
+            }
+
+            parseAlert.set("severity", severity); //$scope.alert.sev
+            parseAlert.set("title", $scope.alert.alertType); //info.title
             parseAlert.set("description", info.description);
             parseAlert.set("location", [map.latitude, map.longitude]);
             parseAlert.set("endorseCount", 0);
             parseAlert.set("fraudCount", 0);
+            parseAlert.set("type", $scope.alert.alertType);
             parseAlert.set("active", true);
             parseAlert.save(null, {
                 success: function(parseAlert){
@@ -454,7 +486,8 @@ angular.module('app.controllers', ['ngOpenFB'])
     });
 
     $scope.alert = {
-        sev: "low"
+        sev: "low",
+        alertType: "Suspicious"
     };
     $scope.changeSeverity = function(sev){
         $scope.alert.sev = sev;
@@ -464,18 +497,41 @@ angular.module('app.controllers', ['ngOpenFB'])
         {text: "Medium", value: "med"},
         {text: "High", value: "high"}
     ];
+
+    $scope.changeType = function(alertType){
+        $scope.alert.alertType = alertType;
+    }
+    $scope.typeList = [
+        {text: "Suspicious Person/Activity", value: "Suspicious"},
+        {text: "Vandalism", value: "Vandalism"},
+        {text: "Theft", value: "Theft"},
+        {text: "Assault", value: "Assault"},
+        {text: "Missing Person", value: "Missing"},
+        {text: "Trespasser", value: "Trespasser"},
+        {text: "Other", value: "Other"}
+    ];
     $scope.createAlert = function(info){
         console.log('calling create alert' + info);
         if(info !== undefined){
-            if(info.description !== undefined && info.title !== undefined ){
+            if(info.description !== undefined ){ //&& info.title !== undefined 
                 console.log(info);
-                parseAlert.set("severity", $scope.alert.sev);
-                parseAlert.set("title", info.title);
+                var severity;
+                if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault" || $scope.alert.alertType == "Missing Person"){
+                    severity = "High";
+                }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Vandalism"){
+                    severity = "Medium";
+                }else{
+                    severity = "Low";
+                }
+
+                parseAlert.set("severity", severity); //$scope.alert.sev
+                parseAlert.set("title", $scope.alert.alertType); //info.title
                 parseAlert.set("description", info.description);
                 parseAlert.set("location", [map.latitude, map.longitude]);
                 parseAlert.set("endorseCount", 0);
                 parseAlert.set("fraudCount", 0);
                 parseAlert.set("active", true);
+                // parseAlert.set("type", $scope.alert.alertType);
                 parseAlert.save(null, {
                     success: function(parseAlert){
                         console.log('Alert has been created ' + parseAlert.id);
