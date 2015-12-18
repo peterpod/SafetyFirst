@@ -2,7 +2,9 @@
 
 
 /***** FONTS *****/
-
+.tabs .tab-item i:nth-of-type(2) {
+  display: none;
+}
 
 p, h2{
   font-family: 'Open Sans', sans-serif;
