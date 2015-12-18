@@ -2,12 +2,12 @@
   <ion-content>
    <form ng-submit="createAlert(alertInfo)">
 	  	<div class="list">
-		  <label class="item item-input">
+<!-- 		  <label class="item item-input">
 		    <span class="input-label">Title</span>
 		    <input type="text" style="text-align: right;" placeholder="Robbery" ng-model="alertInfo.title">
-		  </label>
+		  </label> -->
 
-		  <label class="item item-input item-select">
+<!-- 		  <label class="item item-input item-select">
 		    <div class="input-label">
 		      Severity
 		    </div>
@@ -16,9 +16,13 @@
 		      <option ng-value="Medium" ng-model="alertInfo.sev">Medium</option>
 		      <option ng-value="High" ng-model="alertInfo.sev">High</option>
 		    </select>
+		  </label> -->
+		  <label class="item item-input" style="background-color: #eaeaea;">
+		    <span class="input-label"><h3> Add a Type </h3></span>
 		  </label>
 
-		  	<label class="item item-input item-select">
+
+		  <label class="item item-input item-select">
 		    <div class="input-label">
 		      Type
 		    </div>
@@ -27,6 +31,7 @@
   		      <option ng-value="Vandalism" ng-model="alertInfo.alertType">Vandalism</option>
   		      <option ng-value="Theft" ng-model="alertInfo.alertType">Theft</option>
 		      <option ng-value="Assault" ng-model="alertInfo.alertType">Assault</option>
+		      <option ng-value="Other" ng-model="alertInfo.alertType">Other</option>
 		    </select>
 		  </label>
 

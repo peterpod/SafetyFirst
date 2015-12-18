@@ -56,22 +56,12 @@
         <ion-content>
         <form ng-submit="createAlert(alertInfo)">
           <div class="list">
-            <ion-radio ng-repeat="item in severityList" ng-value="item.value" ng-change="changeSeverity(item.text)" 
-             ng-model="alertInfo.sev"> {{ item.text }}
-            </ion-radio>
-            <label class="item item-input item-select">
-              <div class = "input-label">
-                Alert Type
-              </div>
-              <select ng-repeat="item in typeList" ng-value="item.value" ng-change="changeAlert(item.value)" ng-model="alertInfo.alertType">
-              <option>{{item.text}}</option>
-              </select>
-            </label>
 
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Title</span>
-              <input type="text" placeholder="Suspicious person nearby" ng-model="alertInfo.title">
-            </label>
+            <ion-radio ng-repeat="item in typeList" ng-value="item.value" ng-change="changeType(item.text)" 
+             ng-model="alertInfo.alertType"> {{ item.text }}
+            </ion-radio>
+
+
             <label class="item item-input item-stacked-label">
               <span class="input-label">Description</span>
               <textarea placeholder="Enter Description Here" ng-model="alertInfo.description"></textarea>
