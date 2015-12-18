@@ -6,13 +6,16 @@
 
 p, h2{
   font-family: 'Open Sans', sans-serif;
-  font-size: 26px;
+  font-size: 24px;
 }
 
 button{
   font-family: 'Open Sans', sans-serif;
 }
 
+.icons{
+  font-size:24px;
+}
 
 .scroll {
     height: 100%;
@@ -47,6 +50,17 @@ button{
   margin-left: 10px;
 }
 
+.item h2 {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 2px;
+    font-weight:600; 
+    margin:10px 0px 10px 0px;
+}
+
+#alertTitle{
+  font-weight:500;
+}
 #alertText {
   color: rgb(25,25,25);
   font-family: Roboto,Arial,sans-serif;
@@ -149,11 +163,17 @@ button{
 
 
 /********* ALERT DETAILS *********/
+.alert-descr{
+  margin-top: 1.2em;
+  font-size: 22px;
+  line-height: 150%;
+}
 
 .alert-description{
   margin-top: 1.2em;
   font-size: .9em;
   color: #545454;
+  line-height: 200%;
 }
 
 .crime-image{

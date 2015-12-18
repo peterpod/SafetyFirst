@@ -1,11 +1,5 @@
-// add controllers here
 angular.module('app.controllers', ['ngOpenFB'])
 .controller('LoginCtrl', function ($scope, $state) {
-  //redirect user to map if they have logged in
-  // if(window.localStorage.getItem("login") == true){
-  //   $state.go('tab.map');
-  // }
-
   // Form data for the login modal
   $scope.data = {};
     
@@ -26,13 +20,11 @@ angular.module('app.controllers', ['ngOpenFB'])
      
       user.signUp(null, {
         success: function(user) {
-          // Hooray! Let them use the app now.
           console.log("Success! You have now signed up.");
           $state.go('tab.map');
         },
         error: function(user, error) {
-          // Show the error message somewhere and let the user try again.
-          alert("Error: " + error.code + " " + error.message);
+          alert("We were unable to create your account. Please try again");
         }
       });
      
@@ -41,10 +33,8 @@ angular.module('app.controllers', ['ngOpenFB'])
   $scope.loginEmail = function(){
       Parse.User.logIn($scope.data.username.toLowerCase(), $scope.data.password, {
         success: function(user) {
-          // Do stuff after successful login.
           console.log("Success! You have now logged in.");
-          $state.go('tab.map');
-          window.localStorage.setItem("login",true);
+          $state.go('tab.map'); // route to map view
         },
         error: function(user, error) {
           // The login failed. Check error to see why.
@@ -52,26 +42,6 @@ angular.module('app.controllers', ['ngOpenFB'])
         }
       });
     };
-
-
-  // $scope.fbLogin = function () {
-  //   ngFB.login({scope: 'email'}).then(
-  //       function (response) {
-  //           if (response.status === 'connected') {
-  //               console.log('Facebook login succeeded');
-  //               $state.go('tab.map');
-  //           } else {
-  //               alert('Facebook login failed');
-  //           }
-  //       });
-  // };
-
-  // $scope.fbLogout = function () {
-  //   openFB.logout().then(function(){
-  //           $rootScope.$broadcast('logged-out');
-  //       });
-  // };
-
 }).controller('ProfileCtrl', function ($scope, contactService) {
     $scope.data = {};
     data = contactService.getContacts();
@@ -82,9 +52,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     var query = new Parse.Query(user);
     query.get(currentUser.id, {
       success: function(curUser) {
-        console.log("object retreived " + JSON.stringify(curUser));
         if(curUser.get("contactName") !== undefined){
-            // console.log('its not undefined');
             $scope.data.name = curUser.get("contactName");
             data.name = curUser.get("contactName");
         }
@@ -97,7 +65,6 @@ angular.module('app.controllers', ['ngOpenFB'])
             data.address = curUser.get("contactPhone");
         }
         $scope.data.username = curUser.get("username");
-        console.log($scope.data.username);
         contactService.addContact(data);
         curUser.save()
         .then(
@@ -120,6 +87,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
             curUser.set("Address", $scope.data.address);
+            // save settings to contact service
             data.name = curUser.get("contactName");
             data.phone = curUser.get("contactPhone");
             data.address = curUser.get("contactPhone");
@@ -134,13 +102,13 @@ angular.module('app.controllers', ['ngOpenFB'])
               });
           },
           error: function(error) {
-            console.log("Error: " + error.code + " " + error.message);
+            console.log(error);
           }
         });    
     }
 })
 .controller('HelpCtrl', function ($scope, contactService) {
-    console.log('help ctrl');
+    // backend to display emergency contact name and phone
     $scope.data = {};
     data = contactService.getContacts();
     console.log(JSON.stringify(data));
@@ -148,7 +116,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.data.name = data.name;
     $scope.data.phone = data.phone;
 })
-.controller('MapCtrl', function($scope, $ionicModal, contactService) {
+.controller('MapCtrl', function($scope, $ionicModal, contactService, timeService) {
 
     $scope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( map, 'resize' );
@@ -213,7 +181,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 success:function(results){
                     for (var i=0; i<results.length; i++){
                         var alert = results[i];
-                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity")); 
+                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount"), alert.get("createdAt")); 
                     }
                 }, error: function(error){
                     console.log(error.message);
@@ -222,15 +190,19 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     };
 
-    function setMarker(map, lat, lon, title, content, severity){
+    function setMarker(map, lat, lon, title, content, severity, endorseCount, fraudCount, createdAt){
         var icon = "img/highAlert.png";
         if (severity=="Low"){
             var icon = "img/lowAlert.png";
         }else if (severity=="Medium"){
             var icon = "img/mediumAlert.png";
         };
-        var contentString = '<div id="alertTitle">'+ title+'</div>'+'<br/>'+'<div id="alertDescr">' 
-            + content + '</div>';
+        var time = timeService.getTimeElapsed(createdAt)
+        var contentString = '<div id="alertTitle">'+ title+'</div><br/><div id="alertDescr">' 
+            + content +'<br><div style="margin-top:7px; font-weight:500;">' 
+            + time + ' ago</div><div style="margin-top:7px;"><i class="icons ion-thumbsup"> </i> ' 
+            + endorseCount + '&nbsp;&nbsp;&nbsp;<i class="icons ion-thumbsdown"> </i> '
+            + fraudCount + '</div></div>';
         var alertMarker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lon),
             map: map,
@@ -276,7 +248,9 @@ angular.module('app.controllers', ['ngOpenFB'])
             parseAlert.set("severity", $scope.alert.sev);
             parseAlert.set("title", info.title);
             parseAlert.set("description", info.description);
-            parseAlert.set("location", [map.latitude, map.longitude])
+            parseAlert.set("location", [map.latitude, map.longitude]);
+            parseAlert.set("endorseCount", 0);
+            parseAlert.set("fraudCount", 0);
             parseAlert.set("active", true);
             parseAlert.save(null, {
                 success: function(parseAlert){
@@ -320,11 +294,12 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     }
     $scope.map = map;
-}).controller('ListCtrl', function($scope) {
+}).controller('ListCtrl', function($scope, $state, alertService, timeService) {
     Parse.initialize("nzQI7s3XvgjxJ1ZMBJZQWoiaj8UMliBtjTW3KyTA", "TXM8Ap4P6AA1zSVyk78NP3HBX8vs4vYG5edLLe8n"); //this needs to be moved later
     $scope.alerts = [];
     $scope.ParseAlert = Parse.Object.extend("Alerts");
-    $scope.parseQuery = new Parse.Query($scope.ParseAlert);
+    var query = new Parse.Query($scope.ParseAlert);
+    $scope.parseQuery = query.descending("createdAt");
     var myPos = [40.4428285, -79.9561175];
     navigator.geolocation.getCurrentPosition(function(pos) {
         myPos[0] = pos.coords.latitude;
@@ -364,56 +339,6 @@ angular.module('app.controllers', ['ngOpenFB'])
         return (Math.round((num * t) + (decimals>0?1:0)*(sign(num) * (10 / Math.pow(100, decimals)))) / t).toFixed(decimals);
     }
 
-    function getTimeElapsed(createdAt){
-        var now = new Date();
-        var created_at = new Date(createdAt);
-        var timeDiff = (now-created_at)
-        $scope.timeDifference = timeDiff;
-        // strip the ms
-        timeDiff /= 1000;
-
-        // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
-        var seconds = Math.round(timeDiff % 60);
-        var timeElapsed = seconds + " Seconds";
-        // remove seconds from the date
-        timeDiff = Math.floor(timeDiff / 60);
-
-        // get minutes
-        var minutes = Math.round(timeDiff % 60);
-
-        // remove minutes from the date
-        timeDiff = Math.floor(timeDiff / 60);
-
-        // get hours
-        var hours = Math.round(timeDiff % 24);
-
-        // remove hours from the date
-        timeDiff = Math.floor(timeDiff / 24);
-
-        // the rest of timeDiff is number of days
-        var days = timeDiff ;
-
-        if (minutes!=0){
-            if (minutes ==1){
-                timeElapsed = minutes + "Minute";
-            }
-            timeElapsed = minutes + " Minutes";
-        }if(hours!=0){
-            if (hours ==1){
-                if (minutes ==1){
-                    timeElapsed = hours + "Hour" + minutes + " Minute";
-                }
-                timeElapsed = hours + "Hour" + minutes + " Minutes";
-            }
-            timeElapsed = hours + " Hours " + minutes + " Minutes";
-        }if(days!=0){
-            if (days==1){
-                timeElapsed = days + " Day";
-            }
-            timeElapsed = days + " Days";
-        }
-        return timeElapsed;
-    }
     $scope.parseQuery.find({
         success:function(results){
             // $scope.alerts = results;
@@ -421,16 +346,96 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var alert = results[i];
                 var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
                 var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
-                $scope.timeDifference;
-                var timeElapsed = getTimeElapsed(alert.get("createdAt"));
-                // var distance = google.maps.geometry.spherical.computeDistanceBetween(myLatLng, alertLatLng)
+                var now = new Date();
+                var created_at = new Date(alert.get("createdAt"));
+                var timeDiff = (now-created_at);
+                $scope.timeDifference = timeDiff;
+                var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
                 $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
             }
         }, error: function(error){
-            console.log(error.message);
+            console.log(error);
         }
     });
-}).controller('AlertCtrl', function($scope, $state) {
+
+    /* save current alert to alertService */
+    $scope.saveAlert = function(index){
+        $scope.parseQuery.find({
+            success:function(results){
+                console.log(results);
+                var alert = results[index];
+                var alertLatLng = new google.maps.LatLng(alert.get("location")[0], alert.get("location")[1]);
+                var distance = precise_round(getDistance(myPos[0], myPos[1], alert.get("location")[0], alert.get("location")[1]), 2);  
+                $scope.timeDifference;
+                var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
+
+                alertService.addAlert({id: alert.id, title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
+                $state.go('tab.details');
+            }, error: function(error){
+                console.log(error);
+            }
+        });
+
+    }
+
+}).controller('DetailCtrl', function ($scope, alertService) {
+    var alerts = Parse.Object.extend("Alerts");
+    var query = new Parse.Query(alerts);
+
+    $scope.endorseDisabled = false;
+    $scope.fraudDisabled = false;
+
+    // get current alert
+    alert = alertService.getAlert();
+    $scope.alert = alert;
+    $scope.endorse = function(){
+        query.get(alert.id, {
+          success: function(curAlert) {
+            curAlert.set("endorseCount", curAlert.get("endorseCount") + 1);
+            alertService.addAlert(curAlert);
+            $scope.endorseDisabled = true;
+            $scope.$apply();
+            curAlert.save()
+            .then(
+              function() {
+                console.log('alert endorsed');
+                // disable button on front end
+                // document.getElementsByClassName('button button-balanced')[0].className += ' disabled';
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });    
+    }
+
+    $scope.report = function(){
+        query.get(alert.id, {
+          success: function(curAlert) {
+            curAlert.set("fraudCount", curAlert.get("fraudCount") + 1);
+            alertService.addAlert(curAlert);
+            $scope.fraudDisabled = true;
+            curAlert.save()
+            .then(
+              function() {
+                console.log('alert reported');
+                // disable button on front end
+                document.getElementsByClassName('button button-assertive fraud')[0].className += ' disabled';
+              }, 
+              function(error) {
+                console.log(error);
+              });
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });  
+    }
+})
+.controller('AlertCtrl', function($scope, $state) {
     var ParseAlert = Parse.Object.extend("Alerts");
     var parseAlert = new ParseAlert();
     var myLatlng = new google.maps.LatLng(40.4428285, -79.9561175);
@@ -467,7 +472,9 @@ angular.module('app.controllers', ['ngOpenFB'])
                 parseAlert.set("severity", $scope.alert.sev);
                 parseAlert.set("title", info.title);
                 parseAlert.set("description", info.description);
-                parseAlert.set("location", [map.latitude, map.longitude])
+                parseAlert.set("location", [map.latitude, map.longitude]);
+                parseAlert.set("endorseCount", 0);
+                parseAlert.set("fraudCount", 0);
                 parseAlert.set("active", true);
                 parseAlert.save(null, {
                     success: function(parseAlert){
