@@ -258,17 +258,19 @@ angular.module('app.controllers', ['ngOpenFB'])
         $scope.alert.alertType = alertType;
         }
         $scope.typeList = [
-            {text: "Suspicious Person/Activity", value: "Suspicious"},
-            {text: "Vandalism", value: "Vandalism"},
-            {text: "Theft", value: "Theft"},
-            {text: "Assault", value: "Assault"},
-            {text: "Other", value: "Other"}
+                {text: "Suspicious Person/Activity", value: "Suspicious"},
+                {text: "Vandalism", value: "Vandalism"},
+                {text: "Theft", value: "Theft"},
+                {text: "Assault", value: "Assault"},
+                {text: "Missing Person", value: "Missing"},
+                {text: "Trespasser", value: "Trespasser"},
+                {text: "Other", value: "Other"}
         ];
         $scope.createAlert = function(info){
             var severity;
-            if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault"){
+            if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault" || $scope.alert.alertType == "Missing Person"){
                 severity = "High";
-            }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Road Rage"){
+            }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Vandalism"){
                 severity = "Medium";
             }else{
                 severity = "Low";
@@ -504,6 +506,8 @@ angular.module('app.controllers', ['ngOpenFB'])
         {text: "Vandalism", value: "Vandalism"},
         {text: "Theft", value: "Theft"},
         {text: "Assault", value: "Assault"},
+        {text: "Missing Person", value: "Missing"},
+        {text: "Trespasser", value: "Trespasser"},
         {text: "Other", value: "Other"}
     ];
     $scope.createAlert = function(info){
@@ -512,9 +516,9 @@ angular.module('app.controllers', ['ngOpenFB'])
             if(info.description !== undefined ){ //&& info.title !== undefined 
                 console.log(info);
                 var severity;
-                if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault"){
+                if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault" || $scope.alert.alertType == "Missing Person"){
                     severity = "High";
-                }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Road Rage"){
+                }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Vandalism"){
                     severity = "Medium";
                 }else{
                     severity = "Low";
