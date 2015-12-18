@@ -266,7 +266,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         ];
         $scope.createAlert = function(info){
             var severity;
-            if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assualt"){
+            if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault"){
                 severity = "High";
             }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Road Rage"){
                 severity = "Medium";
@@ -417,7 +417,6 @@ angular.module('app.controllers', ['ngOpenFB'])
 
     // get current alert
     alert = alertService.getAlert();
-    console.log(alert);
     $scope.alert = alert;
     $scope.endorse = function(){
         query.get(alert.id, {
@@ -513,7 +512,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             if(info.description !== undefined ){ //&& info.title !== undefined 
                 console.log(info);
                 var severity;
-                if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assualt"){
+                if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault"){
                     severity = "High";
                 }else if ($scope.alert.alertType == "Trespasser" || $scope.alert.alertType == "Road Rage"){
                     severity = "Medium";
