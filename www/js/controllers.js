@@ -181,7 +181,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 success:function(results){
                     for (var i=0; i<results.length; i++){
                         var alert = results[i];
-                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("title"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount"), alert.get("createdAt")); 
+                        setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("type"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount"), alert.get("createdAt")); 
                     }
                 }, error: function(error){
                     console.log(error.message);
@@ -190,7 +190,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         });
     };
 
-    function setMarker(map, lat, lon, title, content, severity, endorseCount, fraudCount, createdAt){
+    function setMarker(map, lat, lon, type, content, severity, endorseCount, fraudCount, createdAt){
         var icon = "img/highAlert.png";
         if (severity=="Low"){ 
             var icon = "img/lowAlert.png";
@@ -198,7 +198,7 @@ angular.module('app.controllers', ['ngOpenFB'])
             var icon = "img/mediumAlert.png";
         };
         var time = timeService.getTimeElapsed(createdAt)
-        var contentString = '<div id="alertTitle">'+ title+'</div><br/><div id="alertDescr">' 
+        var contentString = '<div id="alertTitle">'+ type +'</div><br/><div id="alertDescr">' 
             + content +'<br><div style="margin-top:7px; font-weight:500;">' 
             + time + ' ago</div><div style="margin-top:7px;"><i class="icons ion-thumbsup"> </i> ' 
             + endorseCount + '&nbsp;&nbsp;&nbsp;<i class="icons ion-thumbsdown"> </i> '
@@ -206,7 +206,7 @@ angular.module('app.controllers', ['ngOpenFB'])
         var alertMarker = new google.maps.Marker({
             position: new google.maps.LatLng(lat, lon),
             map: map,
-            title: title,
+            type: type,
             icon: icon
         });
         var infowindow = new google.maps.InfoWindow();
@@ -254,8 +254,8 @@ angular.module('app.controllers', ['ngOpenFB'])
             {text: "Medium", value: "med"},
             {text: "High", value: "high"}
         ];
-         $scope.changeType = function(alertType){
-        $scope.alert.alertType = alertType;
+        $scope.changeType = function(alertType){
+            $scope.alert.alertType = alertType;
         }
         $scope.typeList = [
                 {text: "Suspicious Person/Activity", value: "Suspicious"},
@@ -277,7 +277,6 @@ angular.module('app.controllers', ['ngOpenFB'])
             }
 
             parseAlert.set("severity", severity); //$scope.alert.sev
-            parseAlert.set("title", $scope.alert.alertType); //info.title
             parseAlert.set("description", info.description);
             parseAlert.set("location", [map.latitude, map.longitude]);
             parseAlert.set("endorseCount", 0);
@@ -383,7 +382,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 var timeDiff = (now-created_at);
                 $scope.timeDifference = timeDiff;
                 var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
-                $scope.alerts.push({title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
+                $scope.alerts.push({type:alert.get("type"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
             }
         }, error: function(error){
             console.log(error);
@@ -401,7 +400,7 @@ angular.module('app.controllers', ['ngOpenFB'])
                 $scope.timeDifference;
                 var timeElapsed = timeService.getTimeElapsed(alert.get("createdAt"));
 
-                alertService.addAlert({id: alert.id, title:alert.get("title"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
+                alertService.addAlert({id: alert.id, type:alert.get("type"), description:alert.get("description"), severity:alert.get("severity"), created: timeElapsed, distance: distance, timeDiff: $scope.timeDifference});
                 $state.go('tab.details');
             }, error: function(error){
                 console.log(error);
@@ -513,8 +512,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.createAlert = function(info){
         console.log('calling create alert' + info);
         if(info !== undefined){
-            if(info.description !== undefined ){ //&& info.title !== undefined 
-                console.log(info);
+            if(info.description !== undefined ){
                 var severity;
                 if ($scope.alert.alertType == "Theft" || $scope.alert.alertType == "Assault" || $scope.alert.alertType == "Missing Person"){
                     severity = "High";
@@ -524,14 +522,13 @@ angular.module('app.controllers', ['ngOpenFB'])
                     severity = "Low";
                 }
 
-                parseAlert.set("severity", severity); //$scope.alert.sev
-                parseAlert.set("title", $scope.alert.alertType); //info.title
+                parseAlert.set("severity", severity);
                 parseAlert.set("description", info.description);
                 parseAlert.set("location", [map.latitude, map.longitude]);
                 parseAlert.set("endorseCount", 0);
                 parseAlert.set("fraudCount", 0);
                 parseAlert.set("active", true);
-                // parseAlert.set("type", $scope.alert.alertType);
+                parseAlert.set("type", $scope.alert.alertType);
                 parseAlert.save(null, {
                     success: function(parseAlert){
                         console.log('Alert has been created ' + parseAlert.id);
