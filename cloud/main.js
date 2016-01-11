@@ -7,7 +7,7 @@ Parse.Cloud.afterSave("Alerts", function(request) {
 
   if(!objectExisted){
     // Our "Alerts" class has a "title" key and description
-    var alertTitle = request.object.get('title');
+    var alertTitle = request.object.get('type');
     var description = request.object.get('description');
 
     var pushQuery = new Parse.Query(Parse.Installation);
@@ -15,8 +15,7 @@ Parse.Cloud.afterSave("Alerts", function(request) {
     Parse.Push.send({
       where: pushQuery, // Set our Installation query
       data: {
-        alert: "New Alert in your area: " + alertTitle,
-        Description: "Description: " + description
+        alert: "New Alert in your area: " + description
       }
       }, {
       success: function() {
