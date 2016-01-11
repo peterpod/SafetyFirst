@@ -183,25 +183,24 @@ angular.module('app.controllers', ['ngOpenFB'])
                 success:function(results){
                     for (var i=0; i<results.length; i++){
                         var alert = results[i];
-                        var elapsedTime = timeService.getTimeElapsed(alert.get("createdAt"));
-                        /* filter out alerts based on severity and time posted
-                        if(alert.get("severity") == "low"){
-                            if(elapsedTime > 3 hours){
+                        var elapsedTime = (new Date() - alert.get("createdAt")) / 3600000;
+                        /* filter out alerts based on severity and time posted */
+                        console.log(alert.get("severity") + ' ' + elapsedTime);
+                        if(alert.get("severity") == "Low"){
+                            if(elapsedTime > 3){
                                 continue;
                             }
                         }
-                        else if(alert.get("severity") == "medium"){
-                            if(elapsedTime > 6 hours){
+                        else if(alert.get("severity") == "Medium"){
+                            if(elapsedTime > 6){
                                 continue;
                             }
                         }
-                        else if(alert.get("severity") == "high"){
-                            if(elapsedTime > 24 hours){
+                        else if(alert.get("severity") == "High"){
+                            if(elapsedTime > 24){
                                 continue;
                             }    
                         }
-                        */
-
                         setMarker(map, alert.get("location")[0], alert.get("location")[1], alert.get("type"), alert.get("description"), alert.get("severity"),alert.get("endorseCount"), alert.get("fraudCount"), alert.get("createdAt")); 
                     }
                 }, error: function(error){

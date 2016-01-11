@@ -98,7 +98,6 @@ angular.module('app', ['ionic','ionic.service.core', 'app.controllers','app.serv
   })
 
   // if none of the above states are matched, use this as the fallback
-  //$urlRouterProvider.otherwise('/login');
-  $urlRouterProvider.otherwise('/tab/map');
+  $urlRouterProvider.otherwise('/login');
 
 });
