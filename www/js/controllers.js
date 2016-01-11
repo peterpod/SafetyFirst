@@ -50,6 +50,11 @@ angular.module('app.controllers', ['ngOpenFB'])
     var currentUser = Parse.User.current();
     var user = Parse.Object.extend("User");
     var query = new Parse.Query(user);
+    var settings = Parse.Object.extend("Settings");
+    var settingQuery = new Parse.Query(settings);
+    
+    console.log(currentUser);
+    
     query.get(currentUser.id, {
       success: function(curUser) {
         if(curUser.get("contactName") !== undefined){
@@ -74,13 +79,25 @@ angular.module('app.controllers', ['ngOpenFB'])
           function(error) {
             console.log(error);
           });
-
-        /* Implement get call for Notification settings */
       },
       error: function(error) {
         console.log("Error: " + error.code + " " + error.message);
       }
     });
+
+
+    /* Implement get call for Notification settings
+    var settingId = curUser.get("setting_id"); // get the pointer to settings
+        console.log(settingId.id);
+        settingQuery.get(settingId, {
+          success: function(curUser) {
+            console.log('found setting info');
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+    */
 
     /* save new settings */
     $scope.saveSettings = function(){
@@ -185,7 +202,6 @@ angular.module('app.controllers', ['ngOpenFB'])
                         var alert = results[i];
                         var elapsedTime = (new Date() - alert.get("createdAt")) / 3600000;
                         /* filter out alerts based on severity and time posted */
-                        console.log(alert.get("severity") + ' ' + elapsedTime);
                         if(alert.get("severity") == "Low"){
                             if(elapsedTime > 3){
                                 continue;
