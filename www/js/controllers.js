@@ -65,10 +65,22 @@ angular.module('app.controllers', ['ngOpenFB'])
             $scope.data.phone = curUser.get("contactPhone");
             data.phone = curUser.get("contactPhone");
         }
-        if(curUser.get("Address") !== undefined){
-            $scope.data.address = curUser.get("Address");
-            data.address = curUser.get("Address");
+        if(curUser.get("street") !== undefined){
+            $scope.data.street = curUser.get("street");
+            data.street = curUser.get("street");
         }
+        if(curUser.get("state") !== undefined){
+            $scope.data.state = curUser.get("state");
+            data.state = curUser.get("state");
+        }
+        if(curUser.get("city") !== undefined){
+            $scope.data.city = curUser.get("city");
+            data.city = curUser.get("city");
+        }
+        if(curUser.get("zip") !== undefined){
+            $scope.data.zip = curUser.get("zip");
+            data.zip = curUser.get("zip");
+        }                
         if(curUser.get("radius") !== undefined){
             $scope.data.radius = curUser.get("radius");
             data.radius = curUser.get("radius");
@@ -113,10 +125,13 @@ angular.module('app.controllers', ['ngOpenFB'])
           success: function(curUser) {
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
-            curUser.set("Address", $scope.data.address);
+            curUser.set("street", $scope.data.street);
+            curUser.set("state", $scope.data.state);
+            curUser.set("city", $scope.data.city);
+            curUser.set("zip", $scope.data.zip);
             curUser.set("assault", $scope.data.assault);
             curUser.set("vandalism", $scope.data.vandalism);
-            curUser.set("radius", $scope.data.radius);
+            curUser.set("radius", Number($scope.data.radius));
             curUser.set("theft", $scope.data.theft);
             curUser.set("suspicious_activity", $scope.data.activity);
             // save settings to contact service
