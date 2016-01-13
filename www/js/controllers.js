@@ -50,6 +50,11 @@ angular.module('app.controllers', ['ngOpenFB'])
     var currentUser = Parse.User.current();
     var user = Parse.Object.extend("User");
     var query = new Parse.Query(user);
+    var settings = Parse.Object.extend("Settings");
+    var settingQuery = new Parse.Query(settings);
+    
+    console.log(currentUser);
+    
     query.get(currentUser.id, {
       success: function(curUser) {
         if(curUser.get("contactName") !== undefined){
@@ -60,11 +65,45 @@ angular.module('app.controllers', ['ngOpenFB'])
             $scope.data.phone = curUser.get("contactPhone");
             data.phone = curUser.get("contactPhone");
         }
-        if(curUser.get("Address") !== undefined){
-            $scope.data.address = curUser.get("Address");
-            data.address = curUser.get("contactPhone");
+        if(curUser.get("street") !== undefined){
+            $scope.data.street = curUser.get("street");
+            data.street = curUser.get("street");
         }
+        if(curUser.get("state") !== undefined){
+            $scope.data.state = curUser.get("state");
+            data.state = curUser.get("state");
+        }
+        if(curUser.get("city") !== undefined){
+            $scope.data.city = curUser.get("city");
+            data.city = curUser.get("city");
+        }
+        if(curUser.get("zip") !== undefined){
+            $scope.data.zip = curUser.get("zip");
+            data.zip = curUser.get("zip");
+        }                
+        if(curUser.get("radius") !== undefined){
+            $scope.data.radius = curUser.get("radius");
+            data.radius = curUser.get("radius");
+        }
+        if(curUser.get("assault") !== undefined){
+            $scope.data.assault = curUser.get("assault");
+            data.assault = curUser.get("assault");
+        }
+        if(curUser.get("theft") !== undefined){
+            $scope.data.theft = curUser.get("theft");
+            data.theft = curUser.get("theft");
+        }
+        if(curUser.get("vandalism") !== undefined){
+            $scope.data.vandalism = curUser.get("vandalism");
+            data.vandalism = curUser.get("vandalism");
+        }          
+        if(curUser.get("suspicious_activity") !== undefined){
+            $scope.data.activity = curUser.get("suspicious_activity");
+            data.activity = curUser.get("suspicious_activity");
+        }                      
         $scope.data.username = curUser.get("username");
+
+        console.log($scope.data);
         contactService.addContact(data);
         curUser.save()
         .then(
@@ -74,8 +113,6 @@ angular.module('app.controllers', ['ngOpenFB'])
           function(error) {
             console.log(error);
           });
-
-        /* Implement get call for Notification settings */
       },
       error: function(error) {
         console.log("Error: " + error.code + " " + error.message);
@@ -88,16 +125,24 @@ angular.module('app.controllers', ['ngOpenFB'])
           success: function(curUser) {
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
-            curUser.set("Address", $scope.data.address);
+            curUser.set("street", $scope.data.street);
+            curUser.set("state", $scope.data.state);
+            curUser.set("city", $scope.data.city);
+            curUser.set("zip", $scope.data.zip);
+            curUser.set("assault", $scope.data.assault);
+            curUser.set("vandalism", $scope.data.vandalism);
+            curUser.set("radius", Number($scope.data.radius));
+            curUser.set("theft", $scope.data.theft);
+            curUser.set("suspicious_activity", $scope.data.activity);
             // save settings to contact service
             data.name = curUser.get("contactName");
             data.phone = curUser.get("contactPhone");
-            data.address = curUser.get("contactPhone");
+            data.address = curUser.get("Address");
             contactService.addContact(data);
             curUser.save()
             .then(
               function() {
-                console.log('object saved');
+                alert('Settings saved successfully!');
               }, 
               function(error) {
                 console.log(error);
@@ -119,6 +164,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.data.phone = data.phone;
 })
 .controller('MapCtrl', function($scope, $ionicModal, contactService, timeService) {
+    $scope.settings = {};
 
     $scope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( map, 'resize' );
@@ -185,7 +231,6 @@ angular.module('app.controllers', ['ngOpenFB'])
                         var alert = results[i];
                         var elapsedTime = (new Date() - alert.get("createdAt")) / 3600000;
                         /* filter out alerts based on severity and time posted */
-                        console.log(alert.get("severity") + ' ' + elapsedTime);
                         if(alert.get("severity") == "Low"){
                             if(elapsedTime > 3){
                                 continue;
