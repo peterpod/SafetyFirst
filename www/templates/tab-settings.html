@@ -48,7 +48,7 @@
         <div class="item range range-positive">
           Radius
             <i class="icon ion-ios-location-outline"></i>
-            <input type="range" name="volume" min="0" max="100" value="12">
+            <input type="range" name="volume" min="0" max="100" ng-model="data.radius">
             <i class="icon ion-ios-location"></i>
         </div>
 
@@ -56,7 +56,7 @@
         <li class="item item-toggle">
            Assault
            <label class="toggle toggle-positive">
-             <input type="checkbox" checked="">
+             <input type="checkbox" ng-model="data.assault">
              <div class="track">
                <div class="handle"></div>
              </div>
@@ -66,7 +66,7 @@
         <li class="item item-toggle">
            Suspicious Activity
            <label class="toggle toggle-positive">
-             <input type="checkbox" checked="">
+             <input type="checkbox" ng-model="data.activity">
              <div class="track">
                <div class="handle"></div>
              </div>
@@ -76,7 +76,7 @@
         <li class="item item-toggle">
            Theft
            <label class="toggle toggle-positive">
-             <input type="checkbox" checked="">
+             <input type="checkbox" ng-model="data.theft">
              <div class="track">
                <div class="handle"></div>
              </div>
@@ -88,16 +88,12 @@
         <li class="item item-toggle">
            Vandalism
            <label class="toggle toggle-positive">
-             <input type="checkbox" checked="">
+             <input type="checkbox" ng-model="data.vandalism">
              <div class="track">
                <div class="handle"></div>
              </div>
            </label>
         </li>
-
-        
-
-       
 
 
       </div>

@@ -67,9 +67,31 @@ angular.module('app.controllers', ['ngOpenFB'])
         }
         if(curUser.get("Address") !== undefined){
             $scope.data.address = curUser.get("Address");
-            data.address = curUser.get("contactPhone");
+            data.address = curUser.get("Address");
         }
+        if(curUser.get("radius") !== undefined){
+            $scope.data.radius = curUser.get("radius");
+            data.radius = curUser.get("radius");
+        }
+        if(curUser.get("assault") !== undefined){
+            $scope.data.assault = curUser.get("assault");
+            data.assault = curUser.get("assault");
+        }
+        if(curUser.get("theft") !== undefined){
+            $scope.data.theft = curUser.get("theft");
+            data.theft = curUser.get("theft");
+        }
+        if(curUser.get("vandalism") !== undefined){
+            $scope.data.vandalism = curUser.get("vandalism");
+            data.vandalism = curUser.get("vandalism");
+        }          
+        if(curUser.get("suspicious_activity") !== undefined){
+            $scope.data.activity = curUser.get("suspicious_activity");
+            data.activity = curUser.get("suspicious_activity");
+        }                      
         $scope.data.username = curUser.get("username");
+
+        console.log($scope.data);
         contactService.addContact(data);
         curUser.save()
         .then(
@@ -85,20 +107,6 @@ angular.module('app.controllers', ['ngOpenFB'])
       }
     });
 
-
-    /* Implement get call for Notification settings
-    var settingId = curUser.get("setting_id"); // get the pointer to settings
-        console.log(settingId.id);
-        settingQuery.get(settingId, {
-          success: function(curUser) {
-            console.log('found setting info');
-          },
-          error: function(error) {
-            console.log(error);
-          }
-        });
-    */
-
     /* save new settings */
     $scope.saveSettings = function(){
         query.get(currentUser.id, {
@@ -106,15 +114,20 @@ angular.module('app.controllers', ['ngOpenFB'])
             curUser.set("contactName", $scope.data.name);
             curUser.set("contactPhone", $scope.data.phone);
             curUser.set("Address", $scope.data.address);
+            curUser.set("assault", $scope.data.assault);
+            curUser.set("vandalism", $scope.data.vandalism);
+            curUser.set("radius", $scope.data.radius);
+            curUser.set("theft", $scope.data.theft);
+            curUser.set("suspicious_activity", $scope.data.activity);
             // save settings to contact service
             data.name = curUser.get("contactName");
             data.phone = curUser.get("contactPhone");
-            data.address = curUser.get("contactPhone");
+            data.address = curUser.get("Address");
             contactService.addContact(data);
             curUser.save()
             .then(
               function() {
-                console.log('object saved');
+                alert('Settings saved successfully!');
               }, 
               function(error) {
                 console.log(error);
