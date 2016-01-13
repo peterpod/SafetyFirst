@@ -164,6 +164,7 @@ angular.module('app.controllers', ['ngOpenFB'])
     $scope.data.phone = data.phone;
 })
 .controller('MapCtrl', function($scope, $ionicModal, contactService, timeService) {
+    $scope.settings = {};
 
     $scope.$on( "$ionicView.enter", function( scopes, states ) {
            google.maps.event.trigger( map, 'resize' );
